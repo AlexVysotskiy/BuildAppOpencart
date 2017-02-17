@@ -7,7 +7,8 @@ class ControllerAccountRegisterBaseAPI extends ApiController {
 		'company' => '',
 		'address_1' => '',
 		'address_2' => '',
-		'agree' => 'true'
+		'agree' => 'true',
+                'postcode' => ''
 	);
 
 	public function index($args = array()) {
