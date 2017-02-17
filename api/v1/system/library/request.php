@@ -47,6 +47,7 @@ class ApiRequest extends Request {
 	}
 
 	public function setDefaultParameters($defaultParameters) {
+            
 		$data = NULL;
 
 		if($this->isGetRequest()) {
