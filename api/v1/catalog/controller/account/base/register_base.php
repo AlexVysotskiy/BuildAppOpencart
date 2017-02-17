@@ -5,6 +5,7 @@ class ControllerAccountRegisterBaseAPI extends ApiController {
 	private $defaultParameters = array(
 		'fax' => '',
 		'company' => '',
+		'address_1' => '',
 		'address_2' => '',
 		'agree' => 'true'
 	);
