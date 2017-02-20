@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Фев 17 2017 г., 14:25
+-- Время создания: Фев 17 2017 г., 15:54
 -- Версия сервера: 5.5.38-log
 -- Версия PHP: 5.5.14
 
@@ -161,7 +161,14 @@ CREATE TABLE IF NOT EXISTS `oc_api_oauth_client` (
   `client_id` char(40) NOT NULL,
   `client_secret` char(40) NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Дамп данных таблицы `oc_api_oauth_client`
+--
+
+INSERT INTO `oc_api_oauth_client` (`oauth_client_id`, `client_id`, `client_secret`, `name`) VALUES
+(1, 'appclient', 'appclientkeyappclientkey', 'Clients');
 
 -- --------------------------------------------------------
 
@@ -174,7 +181,17 @@ CREATE TABLE IF NOT EXISTS `oc_api_oauth_session_access_token` (
   `client_id` char(40) NOT NULL,
   `access_token` char(40) NOT NULL,
   `access_token_expires` int(10) unsigned NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Дамп данных таблицы `oc_api_oauth_session_access_token`
+--
+
+INSERT INTO `oc_api_oauth_session_access_token` (`oauth_session_access_token_id`, `client_id`, `access_token`, `access_token_expires`) VALUES
+(1, 'appclient', 'yWesrQEvDytRQrlQaEfKcOT9EmDTTnfvupdpAKEV', 0),
+(2, 'appclient', '3L61XJtnWoWAFDNpFYLYr1wuoElXPC3H903QSO9A', 0),
+(3, 'appclient', '8x1T9XwMWgnvWpP4PT1yzGEmuotTT1TDtQfOnTrr', 0),
+(4, 'appclient', 'oT3g7h3SOPglY6n2IqBWc1KRioaH3Qh1Hhhu7eg3', 0);
 
 -- --------------------------------------------------------
 
@@ -850,7 +867,7 @@ CREATE TABLE IF NOT EXISTS `oc_currency` (
 
 INSERT INTO `oc_currency` (`currency_id`, `title`, `code`, `symbol_left`, `symbol_right`, `decimal_place`, `value`, `status`, `date_modified`) VALUES
 (1, 'Pound Sterling', 'GBP', '£', '', '2', 0.80479997, 1, '2017-02-17 13:32:59'),
-(2, 'US Dollar', 'USD', '$', '', '2', 1.00000000, 1, '2017-02-17 14:05:00'),
+(2, 'US Dollar', 'USD', '$', '', '2', 1.00000000, 1, '2017-02-17 15:33:05'),
 (3, 'Euro', 'EUR', '', '€', '2', 0.93940002, 1, '2017-02-17 13:32:59');
 
 -- --------------------------------------------------------
@@ -4359,12 +4376,12 @@ MODIFY `api_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT for table `oc_api_oauth_client`
 --
 ALTER TABLE `oc_api_oauth_client`
-MODIFY `oauth_client_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `oauth_client_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `oc_api_oauth_session_access_token`
 --
 ALTER TABLE `oc_api_oauth_session_access_token`
-MODIFY `oauth_session_access_token_id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+MODIFY `oauth_session_access_token_id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `oc_attribute`
 --

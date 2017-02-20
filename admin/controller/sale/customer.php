@@ -1069,9 +1069,9 @@ class ControllerSaleCustomer extends Controller {
 					$this->error['address'][$key]['lastname'] = $this->language->get('error_lastname');
 				}
 
-				if ((utf8_strlen($value['address_1']) < 3) || (utf8_strlen($value['address_1']) > 128)) {
-					$this->error['address'][$key]['address_1'] = $this->language->get('error_address_1');
-				}
+//				if ((utf8_strlen($value['address_1']) < 3) || (utf8_strlen($value['address_1']) > 128)) {
+//					$this->error['address'][$key]['address_1'] = $this->language->get('error_address_1');
+//				}
 
 				if ((utf8_strlen($value['city']) < 2) || (utf8_strlen($value['city']) > 128)) {
 					$this->error['address'][$key]['city'] = $this->language->get('error_city');

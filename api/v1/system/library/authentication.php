@@ -55,7 +55,7 @@ class Authentication {
 
 	public function isValid() {
 		$accessToken = $this->getAccessToken();
-
+                
 		if($accessToken !== '') {
 			$session = $this->db->query("SELECT * FROM " . DB_PREFIX . "api_oauth_session_access_token WHERE access_token = '" . $this->db->escape($accessToken) . "' AND (access_token_expires = 0 OR access_token_expires > '".time()."')");
 
