@@ -18,7 +18,27 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
     public function index($args = array())
     {
         if ($this->request->isPostRequest()) {
-            $this->post();
+
+            $success = false;
+            $response = array();
+            try {
+
+                $orderId = $this->post();
+
+                $response['order'] = $orderId;
+                $success = true;
+            } catch (ApiException $e) {
+
+                throw $e;
+            } catch (Exception $e) {
+
+                $response['error'] = $e->getMessage();
+                $success = false;
+            }
+
+            $response['success'] = $success == true;
+
+            $this->response->setOutput($response);
         } else {
             throw new ApiException(ApiResponse::HTTP_RESPONSE_CODE_NOT_FOUND, ErrorCodes::ERRORCODE_METHOD_NOT_FOUND, ErrorCodes::getMessage(ErrorCodes::ERRORCODE_METHOD_NOT_FOUND));
         }
@@ -130,9 +150,9 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
             $this->load->model('payment/' . $code);
             $paymentMethod = $this->{'model_payment_' . $code}->getMethod($paymentAddress, $total);
             $this->session->data['payment_method'] = $paymentMethod;
-            
-            //
-            $this->makeOrder($paymentAddress, $paymentMethod, $shippingAddress, $shippingMethod);
+
+            // сохранили заказ
+            $orderId = $this->makeOrder($paymentAddress, $paymentMethod, $shippingAddress, $shippingMethod);
 
             // оплата 
             $this->payment = new APIPayment();
@@ -155,6 +175,8 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
             );
 
             $this->model_account_activity->addActivity('address_add', $activity_data);
+
+            return $orderId;
         }
 
         ApiException::evaluateErrors($json);
@@ -369,6 +391,8 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
         $this->load->model('checkout/order');
 
         $this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);
+
+        return $this->session->data['order_id'];
     }
 
 }
