@@ -349,23 +349,33 @@ class ControllerAccountRegister extends Controller {
 
 	public function validate() {
 		if ((utf8_strlen(trim($this->request->post['firstname'])) < 1) || (utf8_strlen(trim($this->request->post['firstname'])) > 32)) {
-			$this->error['firstname'] = $this->language->get('error_firstname');
+//			$this->error['firstname'] = $this->language->get('error_firstname');
+			$this->error['firstname'] = 'error_firstname';
 		}
 
 		if ((utf8_strlen(trim($this->request->post['lastname'])) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
-			$this->error['lastname'] = $this->language->get('error_lastname');
+//			$this->error['lastname'] = $this->language->get('error_lastname');
+			$this->error['lastname'] = 'error_lastname';
 		}
 
 		if ((utf8_strlen($this->request->post['email']) > 96) || !preg_match('/^[^\@]+@.*.[a-z]{2,15}$/i', $this->request->post['email'])) {
-			$this->error['email'] = $this->language->get('error_email');
+//			$this->error['email'] = $this->language->get('error_email');
+			$this->error['email'] = 'error_email';
 		}
 
 		if ($this->model_account_customer->getTotalCustomersByEmail($this->request->post['email'])) {
-			$this->error['warning'] = $this->language->get('error_exists');
+//			$this->error['warning'] = $this->language->get('error_exists');
+			$this->error['warning'] = 'error_email_exists';
 		}
 
 		if ((utf8_strlen($this->request->post['telephone']) < 3) || (utf8_strlen($this->request->post['telephone']) > 32)) {
-			$this->error['telephone'] = $this->language->get('error_telephone');
+//			$this->error['telephone'] = $this->language->get('error_telephone');
+			$this->error['telephone'] = 'error_telephone';
+		}
+                
+                if ($this->model_account_customer->getTotalCustomersByTelephone($this->request->post['telephone'])) {
+//			$this->error['warning'] = $this->language->get('error_exists');
+			$this->error['warning'] = 'error_telephone_exists';
 		}
 
 		/*if ((utf8_strlen(trim($this->request->post['address_1'])) < 3) || (utf8_strlen(trim($this->request->post['address_1'])) > 128)) {
@@ -373,7 +383,8 @@ class ControllerAccountRegister extends Controller {
 		}*/
 
 		if ((utf8_strlen(trim($this->request->post['city'])) < 2) || (utf8_strlen(trim($this->request->post['city'])) > 128)) {
-			$this->error['city'] = $this->language->get('error_city');
+//			$this->error['city'] = $this->language->get('error_city');
+			$this->error['city'] = 'error_city';
 		}
 
 		$this->load->model('localisation/country');
@@ -381,15 +392,18 @@ class ControllerAccountRegister extends Controller {
 		$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
 
 		if ($country_info && $country_info['postcode_required'] && (utf8_strlen(trim($this->request->post['postcode'])) < 2 || utf8_strlen(trim($this->request->post['postcode'])) > 10)) {
-			$this->error['postcode'] = $this->language->get('error_postcode');
+//			$this->error['postcode'] = $this->language->get('error_postcode');
+			$this->error['postcode'] = 'error_postcode';
 		}
 
 		if ($this->request->post['country_id'] == '') {
-			$this->error['country'] = $this->language->get('error_country');
+//			$this->error['country'] = $this->language->get('error_country');
+			$this->error['country'] = 'error_country';
 		}
 
 		if (!isset($this->request->post['zone_id']) || $this->request->post['zone_id'] == '') {
-			$this->error['zone'] = $this->language->get('error_zone');
+//			$this->error['zone'] = $this->language->get('error_zone');
+			$this->error['zone'] = 'error_zone';
 		}
 
 		// Customer Group
@@ -411,10 +425,12 @@ class ControllerAccountRegister extends Controller {
 		}
 
 		if ((utf8_strlen($this->request->post['password']) < 4) || (utf8_strlen($this->request->post['password']) > 20)) {
+//			$this->error['password'] = $this->language->get('error_password');
 			$this->error['password'] = $this->language->get('error_password');
 		}
 
 		if ($this->request->post['confirm'] != $this->request->post['password']) {
+//			$this->error['confirm'] = $this->language->get('error_confirm');
 			$this->error['confirm'] = $this->language->get('error_confirm');
 		}
 

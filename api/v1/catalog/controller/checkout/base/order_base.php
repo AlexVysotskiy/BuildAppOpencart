@@ -126,8 +126,11 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
                 'country_id' => $default['country_id']
             );
 
-            // сохранение адреса оплаты
-            $address_id = $this->model_account_address->addAddress($addressData);
+            if (!($address_id = $this->model_account_address->hasAddress($address))) {
+                
+                // сохранение адреса оплаты
+                $address_id = $this->model_account_address->addAddress($addressData);
+            }
 
             // адрес оплаты
             $paymentAddress = $this->model_account_address->getAddress($address_id);

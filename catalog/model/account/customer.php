@@ -149,6 +149,12 @@ class ModelAccountCustomer extends Model {
 
 		return $query->row['total'];
 	}
+	
+        public function getTotalCustomersByTelephone($telephone) {
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "customer WHERE telephone = '" . $this->db->escape($telephone) . "'");
+
+		return $query->row['total'];
+	}
 
 	public function getIps($customer_id) {
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "customer_ip` WHERE customer_id = '" . (int)$customer_id . "'");
