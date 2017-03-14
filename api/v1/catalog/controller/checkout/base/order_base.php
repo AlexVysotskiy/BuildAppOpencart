@@ -103,11 +103,22 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
             }
         }
 
+        // адрес доставки в деволтном городе
+        $address = trim(@$this->request->post['address']);
+
+        if ((utf8_strlen($address) < 3) || (utf8_strlen($address) > 500)) {
+            $json['error']['address'] = 'error_address';
+        }
+
+        $city = isset($this->request->post['city']) ? $this->request->post['city'] : $default['city'];
+
+        if ((utf8_strlen($address) < 3) || (utf8_strlen($address) > 500)) {
+            $json['error']['city'] = 'error_city';
+        }
+
         // все ок, можем оформлять заказ
         if (!$json) {
 
-            // адрес доставки в деволтном городе
-            $address = $this->request->post['address'];
             // опции заказа (доставка, разгрузка, подъем)
             $options = $this->request->post['options'];
 
@@ -121,13 +132,13 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
                 'address_1' => $address,
                 'address_2' => '',
                 'postcode' => '',
-                'city' => $default['city'],
+                'city' => $city,
                 'zone_id' => $default['zone_id'],
                 'country_id' => $default['country_id']
             );
 
             if (!($address_id = $this->model_account_address->hasAddress($address))) {
-                
+
                 // сохранение адреса оплаты
                 $address_id = $this->model_account_address->addAddress($addressData);
             }
