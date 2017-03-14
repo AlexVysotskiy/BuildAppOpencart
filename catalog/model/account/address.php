@@ -157,9 +157,9 @@ class ModelAccountAddress extends Model
      * есть ли у пользователя 
      * @param type $address
      */
-    public function hasAddress($address)
+    public function hasAddress($address, $city)
     {
-        $query = $this->db->query("SELECT address_id FROM " . DB_PREFIX . "address WHERE customer_id = '" . (int) $this->customer->getId() . "' and address_1 = '" . $this->db->escape($address) . "' ORDER BY address_id desc LIMIT 1");
+        $query = $this->db->query("SELECT address_id FROM " . DB_PREFIX . "address WHERE customer_id = '" . (int) $this->customer->getId() . "' and address_1 = '" . $this->db->escape($address) . "' and city = '" . $this->db->escape($city) . "' ORDER BY address_id desc LIMIT 1");
 
         return isset($query->row['address_id']) ? $query->row['address_id'] : null;
     }
