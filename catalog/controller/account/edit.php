@@ -208,7 +208,7 @@ class ControllerAccountEdit extends Controller
             $this->error['telephone'] = 'error_telephone';
         }
 
-        if ($this->model_account_customer->getTotalCustomersByTelephone($this->request->post['telephone'])) {
+        if (($this->customer->getTelephone() != $this->request->post['telephone']) && $this->model_account_customer->getTotalCustomersByTelephone($this->request->post['telephone'])) {
 //			$this->error['warning'] = $this->language->get('error_exists');
             $this->error['warning'] = 'error_telephone_exists';
         }
