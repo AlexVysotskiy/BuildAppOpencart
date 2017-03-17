@@ -1,4 +1,11 @@
 <?php
+
+/* @TODO добавить включение maintaince_mode при любом заходе */
+
+include 'catalog/view/theme/default/template/default/maintaince.php';
+exit;
+
+
 // Version
 define('VERSION', '2.0.3.1');
 

@@ -234,7 +234,7 @@ foreach ($query->rows as $result) {
 $controller = new Front($registry);
 
 // Maintenance Mode
-$controller->addPreAction(new ApiAction('common/maintenance'));
+//$controller->addPreAction(new ApiAction('common/maintenance'));
 
 // OAuth access token
 $controller->addPreAction(new ApiAction('oauth2/oauth'));
