@@ -17,13 +17,12 @@ class ControllerSocialOrderCallApi extends ControllerSocialBaseAPI
         /* @var $customer Customer */
         $customer = $this->customer;
 
-        $message = 'Поступило обращение от пользователя ' . $customer->getFirstName() . ' ' . $customer->getLastName() . '.' . PHP_EOL . PHP_EOL;
-        $message .= 'Текст обращения: ' . html_entity_decode(trim($_POST['text'])) . PHP_EOL . PHP_EOL;
+        $message = 'Поступил запрос на обратный звонок от ' . $customer->getFirstName() . ' ' . $customer->getLastName() . '.' . PHP_EOL . PHP_EOL;
 
         $message .= 'Телефон: ' . $customer->getTelephone() . PHP_EOL . PHP_EOL;
         $message .= 'Email: ' . $customer->getEmail() . PHP_EOL . PHP_EOL;
 
-        $subject = 'Обращение от пользователя ' . date('d.m.y');
+        $subject = 'Заказ обратного звонка ' . date('d.m.y');
 
         $this->sendMail($this->config->get('config_email'), array(
             'subject' => $subject,
