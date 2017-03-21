@@ -18,10 +18,10 @@ class ControllerSocialOrderCallApi extends ControllerSocialBaseAPI
         $customer = $this->customer;
 
         $message = 'Поступило обращение от пользователя ' . $customer->getFirstName() . ' ' . $customer->getLastName() . '.' . PHP_EOL . PHP_EOL;
-        $message = 'Текст обращения: ' . html_entity_decode(trim($_POST['text'])) . PHP_EOL . PHP_EOL;
+        $message .= 'Текст обращения: ' . html_entity_decode(trim($_POST['text'])) . PHP_EOL . PHP_EOL;
 
-        $message = 'Телефон: ' . $customer->getTelephone() . PHP_EOL . PHP_EOL;
-        $message = 'Email: ' . $customer->getEmail() . PHP_EOL . PHP_EOL;
+        $message .= 'Телефон: ' . $customer->getTelephone() . PHP_EOL . PHP_EOL;
+        $message .= 'Email: ' . $customer->getEmail() . PHP_EOL . PHP_EOL;
 
         $subject = 'Обращение от пользователя ' . date('d.m.y');
 
