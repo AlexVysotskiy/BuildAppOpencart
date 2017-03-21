@@ -12,7 +12,7 @@ class ControllerSocialOrderCallApi extends ControllerSocialBaseAPI
 
     protected function post()
     {
-        $userId = $this->request->post['userId'];
+//        $userId = $this->request->post['userId'];
 
         /* @var $customer Customer */
         $customer = $this->customer;
