@@ -2,7 +2,7 @@
 
 require_once(DIR_API_APPLICATION . 'controller/social/base/social_base.php');
 
-class ControllerProductCategoryAPI extends ControllerSocialBaseAPI
+class ControllerSocialMakeCallApi extends ControllerSocialBaseAPI
 {
 
     public function index($args = array())
