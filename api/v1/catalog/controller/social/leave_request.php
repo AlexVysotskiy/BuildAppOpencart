@@ -25,7 +25,7 @@ class ControllerSocialLeaveRequestApi extends ControllerSocialBaseAPI
 
         $subject = 'Обращение от пользователя ' . date('d.m.y');
 
-        $this->sendMail($customer->getEmail(), array(
+        $this->sendMail($this->config->get('config_email'), array(
             'subject' => $subject,
             'message' => $message,
         ));
