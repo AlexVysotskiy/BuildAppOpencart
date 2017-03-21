@@ -10,25 +10,16 @@ class ControllerSocialMakeCallApi extends ControllerSocialBaseAPI
         parent::index($args);
     }
 
-    protected function post()
+    protected function get()
     {
-        $userId = $this->request->post['userId'];
+        $response = array(
+            'success' => 1,
+            'phone' => $this->config->get('config_telephone'),
+        );
 
-        /* @var $customer Customer */
-        $customer = $this->customer;
-
-        $message = 'Поступило обращение от пользователя ' . $customer->getFirstName() . ' ' . $customer->getLastName() . '.' . PHP_EOL . PHP_EOL;
-        $message = 'Текст обращения: ' . html_entity_decode(trim($this->request->post['text'])) . PHP_EOL . PHP_EOL;
-
-        $message = 'Телефон: ' . $customer->getTelephone() . PHP_EOL . PHP_EOL;
-        $message = 'Email: ' . $customer->getEmail() . PHP_EOL . PHP_EOL;
-
-        $subject = 'Обращение от пользователя ' . date('d.m.y');
-
-        $this->sendMail($customer->getEmail(), array(
-            'subject' => $subject,
-            'message' => $message,
-        ));
+        $this->response->setOutput($response);
     }
 
 }
+
+
