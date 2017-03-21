@@ -29,6 +29,11 @@ class ControllerSocialLeaveRequestApi extends ControllerSocialBaseAPI
             'subject' => $subject,
             'message' => $message,
         ));
+
+        $response = array(
+            'success' => 1,
+        );
+        $this->response->setOutput($response);
     }
 
 }
