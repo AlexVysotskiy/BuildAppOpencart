@@ -1326,6 +1326,9 @@ class ControllerSaleOrder extends Controller
 
             $data['products'] = array();
 
+            $this->load->model('catalog/product');
+            $totalWeight = 0;
+
             $products = $this->model_sale_order->getOrderProducts($this->request->get['order_id']);
 
             foreach ($products as $product) {
@@ -1354,7 +1357,10 @@ class ControllerSaleOrder extends Controller
                     }
                 }
 
-                $data['products'][] = array(
+                $productId = $product['product_id'];
+                $allProductInfo = $this->model_catalog_product->getProduct($productId);
+
+                $data['products'][$productId] = array(
                     'order_product_id' => $product['order_product_id'],
                     'product_id' => $product['product_id'],
                     'name' => $product['name'],
@@ -1363,8 +1369,11 @@ class ControllerSaleOrder extends Controller
                     'quantity' => $product['quantity'],
                     'price' => $this->currency->format($product['price'] + ($this->config->get('config_tax') ? $product['tax'] : 0), $order_info['currency_code'], $order_info['currency_value']),
                     'total' => $this->currency->format($product['total'] + ($this->config->get('config_tax') ? ($product['tax'] * $product['quantity']) : 0), $order_info['currency_code'], $order_info['currency_value']),
-                    'href' => $this->url->link('catalog/product/edit', 'token=' . $this->session->data['token'] . '&product_id=' . $product['product_id'], 'SSL')
+                    'href' => $this->url->link('catalog/product/edit', 'token=' . $this->session->data['token'] . '&product_id=' . $product['product_id'], 'SSL'),
+                    'weight' => $allProductInfo['weight'] * $product['quantity']
                 );
+
+                $totalWeight += $data['products'][$productId]['weight'];
             }
 
             $data['vouchers'] = array();
@@ -1381,10 +1390,17 @@ class ControllerSaleOrder extends Controller
 
             $data['totals'] = array();
 
+            $data['totals'][] = array(
+                'code' => 'weight',
+                'title' => 'Общий вес',
+                'text' => $totalWeight . ' кг.'
+            );
+
             $totals = $this->model_sale_order->getOrderTotals($this->request->get['order_id']);
 
             foreach ($totals as $total) {
                 $data['totals'][] = array(
+                    'code' => 'other',
                     'title' => $total['title'],
                     'text' => $this->currency->format($total['value'], $order_info['currency_code'], $order_info['currency_value']),
                 );
@@ -2191,7 +2207,7 @@ class ControllerSaleOrder extends Controller
     public function api()
     {
         $this->load->language('sale/order');
-        
+
         $json = array();
 
         if ($this->validate()) {
