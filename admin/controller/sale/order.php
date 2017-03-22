@@ -2191,6 +2191,8 @@ class ControllerSaleOrder extends Controller
     public function api()
     {
         $this->load->language('sale/order');
+        
+        $json - array();
 
         if ($this->validate()) {
             // Store
