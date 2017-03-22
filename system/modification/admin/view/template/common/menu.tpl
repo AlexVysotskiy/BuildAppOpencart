@@ -189,7 +189,7 @@
         </ul>
     </li>
 
-    <?php if($isTest): ?>
+
 
     <li id="tools"><a class="parent"><i class="fa fa-wrench fa-fw"></i> <span><?php echo $text_tools; ?></span></a>
         <ul>
@@ -204,27 +204,34 @@
             <li><a class="parent"><?php echo $text_sale; ?></a>
                 <ul>
                     <li><a href="<?php echo $report_sale_order; ?>"><?php echo $text_report_sale_order; ?></a></li>
+                    <?php if($isTest): ?>
                     <li><a href="<?php echo $report_sale_tax; ?>"><?php echo $text_report_sale_tax; ?></a></li>
                     <li><a href="<?php echo $report_sale_shipping; ?>"><?php echo $text_report_sale_shipping; ?></a></li>
                     <li><a href="<?php echo $report_sale_return; ?>"><?php echo $text_report_sale_return; ?></a></li>
                     <li><a href="<?php echo $report_sale_coupon; ?>"><?php echo $text_report_sale_coupon; ?></a></li>
+                    <?php endif; ?>
                 </ul>
             </li>
             <li><a class="parent"><?php echo $text_product; ?></a>
                 <ul>
+                    <?php if($isTest): ?>
                     <li><a href="<?php echo $report_product_viewed; ?>"><?php echo $text_report_product_viewed; ?></a></li>
+                    <?php endif; ?>
                     <li><a href="<?php echo $report_product_purchased; ?>"><?php echo $text_report_product_purchased; ?></a></li>
                 </ul>
             </li>
             <li><a class="parent"><?php echo $text_customer; ?></a>
                 <ul>
+                    <li><a href="<?php echo $report_customer_order; ?>"><?php echo $text_report_customer_order; ?></a></li>
+                    <?php if($isTest): ?>
                     <li><a href="<?php echo $report_customer_online; ?>"><?php echo $text_report_customer_online; ?></a></li>
                     <li><a href="<?php echo $report_customer_activity; ?>"><?php echo $text_report_customer_activity; ?></a></li>
-                    <li><a href="<?php echo $report_customer_order; ?>"><?php echo $text_report_customer_order; ?></a></li>
                     <li><a href="<?php echo $report_customer_reward; ?>"><?php echo $text_report_customer_reward; ?></a></li>
                     <li><a href="<?php echo $report_customer_credit; ?>"><?php echo $text_report_customer_credit; ?></a></li>
+                    <?php endif; ?>
                 </ul>
             </li>
+            <?php if($isTest): ?>
             <li><a class="parent"><?php echo $text_marketing; ?></a>
                 <ul>
                     <li><a href="<?php echo $report_marketing; ?>"><?php echo $text_marketing; ?></a></li>
@@ -232,7 +239,9 @@
                     <li><a href="<?php echo $report_affiliate_activity; ?>"><?php echo $text_report_affiliate_activity; ?></a></li>
                 </ul>
             </li>
+            <?php endif; ?>
         </ul>
     </li>
-    <?php endif; ?>
+
+
 </ul>
