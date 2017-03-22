@@ -2192,7 +2192,7 @@ class ControllerSaleOrder extends Controller
     {
         $this->load->language('sale/order');
         
-        $json - array();
+        $json = array();
 
         if ($this->validate()) {
             // Store
