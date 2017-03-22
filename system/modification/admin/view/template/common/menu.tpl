@@ -190,7 +190,7 @@
     </li>
 
 
-
+ <?php if($isTest): ?>
     <li id="tools"><a class="parent"><i class="fa fa-wrench fa-fw"></i> <span><?php echo $text_tools; ?></span></a>
         <ul>
             <li><a href="<?php echo $upload; ?>"><?php echo $text_upload; ?></a></li>
@@ -198,6 +198,7 @@
             <li><a href="<?php echo $error_log; ?>"><?php echo $text_error_log; ?></a></li>
         </ul>
     </li>
+      <?php endif; ?>
 
     <li id="reports"><a class="parent"><i class="fa fa-bar-chart-o fa-fw"></i> <span><?php echo $text_reports; ?></span></a>
         <ul>
