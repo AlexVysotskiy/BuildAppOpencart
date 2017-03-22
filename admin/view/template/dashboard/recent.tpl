@@ -23,7 +23,17 @@
           <td><?php echo $order['status']; ?></td>
           <td><?php echo $order['date_added']; ?></td>
           <td class="text-right"><?php echo $order['total']; ?></td>
-          <td class="text-right"><a href="<?php echo $order['view']; ?>" data-toggle="tooltip" title="<?php echo $button_view; ?>" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
+          <td class="text-right">
+              
+              <a href="<?php echo $order['print']; ?>" data-toggle="tooltip" title="Распечатать" class="btn btn-info" target="__blank">
+                  <i class="fa fa-print"></i>
+              </a>
+              
+              <a href="<?php echo $order['view']; ?>" data-toggle="tooltip" title="<?php echo $button_view; ?>" class="btn btn-info">
+                  <i class="fa fa-eye"></i>
+              </a>
+              
+          </td>
         </tr>
         <?php } ?>
         <?php } else { ?>

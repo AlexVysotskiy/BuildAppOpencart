@@ -120,7 +120,7 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
         if (!$json) {
 
             // опции заказа (доставка, разгрузка, подъем)
-            $options = $this->request->post['options'];
+            $options = json_decode(html_entity_decode($this->request->post['options']), true);
 
             $this->load->model('account/address');
 
@@ -151,7 +151,7 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
 
             // загружаем способ доставки
             /* @TODO добавить валидацию опций */
-            $code = 'pickup';
+            $code = isset($options['shipping']) && $options['shipping'] ? 'flat' : 'pickup';
             $this->load->model('shipping/' . $code);
             $quoute = $this->{'model_shipping_' . $code}->getQuote($shippingAddress);
             $shippingMethod = $quoute['quote'][$code];
@@ -166,7 +166,7 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
             $this->session->data['payment_method'] = $paymentMethod;
 
             // сохранили заказ
-            $orderId = $this->makeOrder($paymentAddress, $paymentMethod, $shippingAddress, $shippingMethod);
+            $orderId = $this->makeOrder($paymentAddress, $paymentMethod, $shippingAddress, $shippingMethod, $options);
 
             // оплата 
             $this->payment = new APIPayment();
@@ -196,7 +196,7 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
         ApiException::evaluateErrors($json);
     }
 
-    protected function makeOrder($paymentAddress, $paymentMethod, $shippingAddress, $shippingMethod)
+    protected function makeOrder($paymentAddress, $paymentMethod, $shippingAddress, $shippingMethod, $orderOptions)
     {
         $order_data = array();
 
@@ -401,6 +401,26 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
         } else {
             $order_data['accept_language'] = '';
         }
+
+        // добавили отображение галочек
+        $textOptions == '';
+        $textOptions .= 'Доставка: ' . ($orderOptions['shipping'] == 1 ? 'курьер' : 'самовывоз') . PHP_EOL;
+        if ($orderOptions['unload'] == 1 || $orderOptions['lift'] == 1) {
+
+            $t = array();
+            if ($orderOptions['unload'] == 1) {
+                $t[] = 'разгрузка';
+            }
+            if ($orderOptions['lift'] == 1) {
+                $t[] = 'подъем';
+            }
+
+            $textOptions .= 'Требуется:' . implode(', ', $t) . ';' . PHP_EOL;
+        }
+
+        $order_data['comment'] = 'Опции заказа: ' . $textOptions;
+
+        $this->session->data['comment'];
 
         $this->load->model('checkout/order');
 
