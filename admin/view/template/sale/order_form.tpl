@@ -19,11 +19,11 @@
       <div class="panel-body">
         <form class="form-horizontal">
           <ul id="order" class="nav nav-tabs nav-justified">
-            <li class="disabled active"><a href="#tab-customer" data-toggle="tab">1. <?php echo $tab_customer; ?></a></li>
-            <li class="disabled"><a href="#tab-cart" data-toggle="tab">2. <?php echo $tab_product; ?></a></li>
-            <li class="disabled"><a href="#tab-payment" data-toggle="tab">3. <?php echo $tab_payment; ?></a></li>
-            <li class="disabled"><a href="#tab-shipping" data-toggle="tab">4. <?php echo $tab_shipping; ?></a></li>
-            <li class="disabled"><a href="#tab-total" data-toggle="tab">5. <?php echo $tab_total; ?></a></li>
+            <li class=" active"><a href="#tab-customer" data-toggle="tab">1. <?php echo $tab_customer; ?></a></li>
+            <li class=""><a href="#tab-cart" data-toggle="tab">2. <?php echo $tab_product; ?></a></li>
+            <li class=""><a href="#tab-payment" data-toggle="tab">3. <?php echo $tab_payment; ?></a></li>
+            <li class=""><a href="#tab-shipping" data-toggle="tab">4. <?php echo $tab_shipping; ?></a></li>
+            <li class=""><a href="#tab-total" data-toggle="tab">5. <?php echo $tab_total; ?></a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="tab-customer">
@@ -934,7 +934,7 @@
               </fieldset>
               <div class="row">
                 <div class="col-sm-6 text-left">
-                  <button type="button" onclick="$('select[name=\'shipping_method\']').prop('disabled') ? $('a[href=\'#tab-payment\']').tab('show') : $('a[href=\'#tab-shipping\']').tab('show');" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo $button_back; ?></button>
+{*                  <button type="button" onclick="$('select[name=\'shipping_method\']').prop('disabled') ? $('a[href=\'#tab-payment\']').tab('show') : $('a[href=\'#tab-shipping\']').tab('show');" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo $button_back; ?></button>*}
                 </div>
                 <div class="col-sm-6 text-right">
                   <button type="button" id="button-refresh" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-warning"><i class="fa fa-refresh"></i></button>
@@ -1026,11 +1026,11 @@ $('#button-refresh').on('click', function() {
 			
 			if (!shipping) {
 				$('select[name=\'shipping_method\'] option').removeAttr('selected');
-				$('select[name=\'shipping_method\']').prop('disabled', true);
-				$('#button-shipping-method').prop('disabled', true);
+{*				$('select[name=\'shipping_method\']').prop('disabled', true);*}
+{*				$('#button-shipping-method').prop('disabled', true);*}
 			} else {
-				$('select[name=\'shipping_method\']').prop('disabled', false);
-				$('#button-shipping-method').prop('disabled', false);				
+{*				$('select[name=\'shipping_method\']').prop('disabled', false);*}
+{*				$('#button-shipping-method').prop('disabled', false);				*}
 			}
 					
 			if (json['vouchers']) {
@@ -1838,11 +1838,11 @@ $('#button-payment-address').on('click', function() {
 					dataType: 'json',
 					beforeSend: function() {
 						$('#button-payment-address i').replaceWith('<i class="fa fa-circle-o-notch fa-spin"></i>');
-						$('#button-payment-address').prop('disabled', true);
+{*						$('#button-payment-address').prop('disabled', true);*}
 					},
 					complete: function() {
 						$('#button-payment-address i').replaceWith('<i class="fa fa-arrow-right"></i>');
-						$('#button-payment-address').prop('disabled', false);
+{*						$('#button-payment-address').prop('disabled', false);*}
 					},
 					success: function(json) {
 						if (json['error']) {
@@ -1872,11 +1872,11 @@ $('#button-payment-address').on('click', function() {
 				$('#button-refresh').trigger('click');
 								
 				// If shipping required got to shipping tab else total tabs
-				if ($('select[name=\'shipping_method\']').prop('disabled')) {
+				{*if ($('select[name=\'shipping_method\']').prop('disabled')) {
 					$('a[href=\'#tab-total\']').tab('show');		
 				} else {
 					$('a[href=\'#tab-shipping\']').tab('show');							
-				}
+				}*}
 			}
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
@@ -2022,11 +2022,11 @@ $('#button-shipping-address').on('click', function() {
 					dataType: 'json',
 					beforeSend: function() {
 						$('#button-shipping-address i').replaceWith('<i class="fa fa-circle-o-notch fa-spin"></i>');
-						$('#button-shipping-address').prop('disabled', true);
+{*						$('#button-shipping-address').prop('disabled', true);*}
 					},
 					complete: function() {
 						$('#button-shipping-address i').replaceWith('<i class="fa fa-arrow-right"></i>');
-						$('#button-shipping-address').prop('disabled', false);
+{*						$('#button-shipping-address').prop('disabled', false);*}
 					},
 					success: function(json) {
 						if (json['error']) {
@@ -2048,7 +2048,7 @@ $('#button-shipping-address').on('click', function() {
 											}
 										}		
 									} else {
-										html += '<option value="" style="color: #F00;" disabled="disabled">' + json['shipping_method'][i]['error'] + '</option>';
+										html += '<option value="" style="color: #F00;" >' + json['shipping_method'][i]['error'] + '</option>';
 									}
 									
 									html += '</optgroup>';
