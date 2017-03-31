@@ -352,7 +352,7 @@ class ControllerApiOrder extends Controller {
 
 				// Payment Method
 				if (!isset($this->session->data['payment_method'])) {
-					$json['error'] = $this->language->get('error_payment_method');
+//					$json['error'] = $this->language->get('error_payment_method');
 				}
 
 				// Shipping
