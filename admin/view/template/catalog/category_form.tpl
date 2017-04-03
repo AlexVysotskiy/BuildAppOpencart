@@ -39,7 +39,7 @@
                             </ul>-->
                             <div class="tab-content">
                                 <?php foreach ($languages as $language) { ?>
-                                <?php  if($language['name'] == 'Русский') ?>
+                                <?php  if($language['name'] == 'Русский'){ ?>
                                 <div class="tab-pane active" id="language<?php echo $language['language_id']; ?>">
                                     <div class="form-group required">
                                         <label class="col-sm-2 control-label" for="input-name<?php echo $language['language_id']; ?>"><?php echo $entry_name; ?></label>
