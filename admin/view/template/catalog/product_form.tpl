@@ -29,14 +29,14 @@
             <li class="active"><a href="#tab-general" data-toggle="tab"><?php echo $tab_general; ?></a></li>
             <li><a href="#tab-data" data-toggle="tab"><?php echo $tab_data; ?></a></li>
             <li><a href="#tab-links" data-toggle="tab"><?php echo $tab_links; ?></a></li>
-            <!--<li><a href="#tab-attribute" data-toggle="tab"><?php echo $tab_attribute; ?></a></li>
-            <li><a href="#tab-option" data-toggle="tab"><?php echo $tab_option; ?></a></li>
-            <li><a href="#tab-recurring" data-toggle="tab"><?php echo $tab_recurring; ?></a></li>
-            <li><a href="#tab-discount" data-toggle="tab"><?php echo $tab_discount; ?></a></li>
-             <li><a href="#tab-special" data-toggle="tab"><?php echo $tab_special; ?></a></li>-->
+            <li style="display: none"><a href="#tab-attribute" data-toggle="tab"><?php echo $tab_attribute; ?></a></li>
+            <li style="display: none"><a href="#tab-option" data-toggle="tab"><?php echo $tab_option; ?></a></li>
+            <li style="display: none"><a href="#tab-recurring" data-toggle="tab"><?php echo $tab_recurring; ?></a></li>
+            <li style="display: none"><a href="#tab-discount" data-toggle="tab"><?php echo $tab_discount; ?></a></li>
+             <li style="display: none"><a href="#tab-special" data-toggle="tab"><?php echo $tab_special; ?></a></li>
             <li><a href="#tab-image" data-toggle="tab"><?php echo $tab_image; ?></a></li>
-            <!-- <li><a href="#tab-reward" data-toggle="tab"><?php echo $tab_reward; ?></a></li>
-           <li><a href="#tab-design" data-toggle="tab"><?php echo $tab_design; ?></a></li>-->
+            <li style="display: none"><a href="#tab-reward" data-toggle="tab"><?php echo $tab_reward; ?></a></li>
+           <li style="display: none"><a href="#tab-design" data-toggle="tab"><?php echo $tab_design; ?></a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="tab-general">
@@ -63,7 +63,7 @@
                       <textarea name="product_description[<?php echo $language['language_id']; ?>][description]" placeholder="<?php echo $entry_description; ?>" id="input-description<?php echo $language['language_id']; ?>"><?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['description'] : ''; ?></textarea>
                     </div>
                   </div>
-                  <!--<div class="form-group required">
+                  <div class="form-group required" style="display: none">
                     <label class="col-sm-2 control-label" for="input-meta-title<?php echo $language['language_id']; ?>"><?php echo $entry_meta_title; ?></label>
                     <div class="col-sm-10">
                       <input type="text" name="product_description[<?php echo $language['language_id']; ?>][meta_title]" value="<?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['meta_title'] : ''; ?>" placeholder="<?php echo $entry_meta_title; ?>" id="input-meta-title<?php echo $language['language_id']; ?>" class="form-control" />
@@ -72,24 +72,24 @@
                       <?php } ?>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" style="display: none">
                     <label class="col-sm-2 control-label" for="input-meta-description<?php echo $language['language_id']; ?>"><?php echo $entry_meta_description; ?></label>
                     <div class="col-sm-10">
                       <textarea name="product_description[<?php echo $language['language_id']; ?>][meta_description]" rows="5" placeholder="<?php echo $entry_meta_description; ?>" id="input-meta-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['meta_description'] : ''; ?></textarea>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" style="display: none">
                     <label class="col-sm-2 control-label" for="input-meta-keyword<?php echo $language['language_id']; ?>"><?php echo $entry_meta_keyword; ?></label>
                     <div class="col-sm-10">
                       <textarea name="product_description[<?php echo $language['language_id']; ?>][meta_keyword]" rows="5" placeholder="<?php echo $entry_meta_keyword; ?>" id="input-meta-keyword<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['meta_keyword'] : ''; ?></textarea>
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" style="display: none">
                     <label class="col-sm-2 control-label" for="input-tag<?php echo $language['language_id']; ?>"><span data-toggle="tooltip" title="<?php echo $help_tag; ?>"><?php echo $entry_tag; ?></span></label>
                     <div class="col-sm-10">
                       <input type="text" name="product_description[<?php echo $language['language_id']; ?>][tag]" value="<?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['tag'] : ''; ?>" placeholder="<?php echo $entry_tag; ?>" id="input-tag<?php echo $language['language_id']; ?>" class="form-control" />
                     </div>
-                  </div>-->
+                  </div>
                 </div>
                 <?php } ?>
               </div>
@@ -111,55 +111,55 @@
                   <?php } ?>
                 </div>
               </div>
-              <!--<div class="form-group">
+             <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-sku"><span data-toggle="tooltip" title="<?php echo $help_sku; ?>"><?php echo $entry_sku; ?></span></label>
                 <div class="col-sm-10">
                   <input type="text" name="sku" value="<?php echo $sku; ?>" placeholder="<?php echo $entry_sku; ?>" id="input-sku" class="form-control" />
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-upc"><span data-toggle="tooltip" title="<?php echo $help_upc; ?>"><?php echo $entry_upc; ?></span></label>
                 <div class="col-sm-10">
                   <input type="text" name="upc" value="<?php echo $upc; ?>" placeholder="<?php echo $entry_upc; ?>" id="input-upc" class="form-control" />
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-ean"><span data-toggle="tooltip" title="<?php echo $help_ean; ?>"><?php echo $entry_ean; ?></span></label>
                 <div class="col-sm-10">
                   <input type="text" name="ean" value="<?php echo $ean; ?>" placeholder="<?php echo $entry_ean; ?>" id="input-ean" class="form-control" />
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-jan"><span data-toggle="tooltip" title="<?php echo $help_jan; ?>"><?php echo $entry_jan; ?></span></label>
                 <div class="col-sm-10">
                   <input type="text" name="jan" value="<?php echo $jan; ?>" placeholder="<?php echo $entry_jan; ?>" id="input-jan" class="form-control" />
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-isbn"><span data-toggle="tooltip" title="<?php echo $help_isbn; ?>"><?php echo $entry_isbn; ?></span></label>
                 <div class="col-sm-10">
                   <input type="text" name="isbn" value="<?php echo $isbn; ?>" placeholder="<?php echo $entry_isbn; ?>" id="input-isbn" class="form-control" />
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-mpn"><span data-toggle="tooltip" title="<?php echo $help_mpn; ?>"><?php echo $entry_mpn; ?></span></label>
                 <div class="col-sm-10">
                   <input type="text" name="mpn" value="<?php echo $mpn; ?>" placeholder="<?php echo $entry_mpn; ?>" id="input-mpn" class="form-control" />
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-location"><?php echo $entry_location; ?></label>
                 <div class="col-sm-10">
                   <input type="text" name="location" value="<?php echo $location; ?>" placeholder="<?php echo $entry_location; ?>" id="input-location" class="form-control" />
                 </div>
-              </div>-->
+              </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-price"><?php echo $entry_price; ?></label>
                 <div class="col-sm-10">
                   <input type="text" name="price" value="<?php echo $price; ?>" placeholder="<?php echo $entry_price; ?>" id="input-price" class="form-control" />
                 </div>
               </div>
-              <!--<div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-tax-class"><?php echo $entry_tax_class; ?></label>
                 <div class="col-sm-10">
                   <select name="tax_class_id" id="input-tax-class" class="form-control">
@@ -173,19 +173,19 @@
                     <?php } ?>
                   </select>
                 </div>
-              </div>-->
+              </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-quantity"><?php echo $entry_quantity; ?></label>
                 <div class="col-sm-10">
                   <input type="text" name="quantity" value="<?php echo $quantity; ?>" placeholder="<?php echo $entry_quantity; ?>" id="input-quantity" class="form-control" />
                 </div>
               </div>
-              <!--<div class="form-group">
+             <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-minimum"><span data-toggle="tooltip" title="<?php echo $help_minimum; ?>"><?php echo $entry_minimum; ?></span></label>
                 <div class="col-sm-10">
                   <input type="text" name="minimum" value="<?php echo $minimum; ?>" placeholder="<?php echo $entry_minimum; ?>" id="input-minimum" class="form-control" />
                 </div>
-              </div>-->
+              </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-subtract"><?php echo $entry_subtract; ?></label>
                 <div class="col-sm-10">
@@ -214,7 +214,7 @@
                   </select>
                 </div>
               </div>
-               <!--<div class="form-group">
+               <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label"><?php echo $entry_shipping; ?></label>
                 <div class="col-sm-10">
                   <label class="radio-inline">
@@ -237,7 +237,7 @@
                   </label>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-keyword"><span data-toggle="tooltip" title="<?php echo $help_keyword; ?>"><?php echo $entry_keyword; ?></span></label>
                 <div class="col-sm-10">
                   <input type="text" name="keyword" value="<?php echo $keyword; ?>" placeholder="<?php echo $entry_keyword; ?>" id="input-keyword" class="form-control" />
@@ -246,7 +246,7 @@
                   <?php } ?>               
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-date-available"><?php echo $entry_date_available; ?></label>
                 <div class="col-sm-3">
                   <div class="input-group date">
@@ -255,7 +255,7 @@
                     <button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
                     </span></div>
                 </div>
-              </div>-->
+              </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-length"><?php echo $entry_dimension; ?></label>
                 <div class="col-sm-10">
@@ -328,13 +328,13 @@
               </div>
             </div>
             <div class="tab-pane" id="tab-links">
-              <!--<div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-manufacturer"><span data-toggle="tooltip" title="<?php echo $help_manufacturer; ?>"><?php echo $entry_manufacturer; ?></span></label>
                 <div class="col-sm-10">
                   <input type="text" name="manufacturer" value="<?php echo $manufacturer ?>" placeholder="<?php echo $entry_manufacturer; ?>" id="input-manufacturer" class="form-control" />
                   <input type="hidden" name="manufacturer_id" value="<?php echo $manufacturer_id; ?>" />
                 </div>
-              </div>-->
+              </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-category"><span data-toggle="tooltip" title="<?php echo $help_category; ?>"><?php echo $entry_category; ?></span></label>
                 <div class="col-sm-10">
@@ -348,7 +348,7 @@
                   </div>
                 </div>
               </div>
-              <!--<div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-filter"><span data-toggle="tooltip" title="<?php echo $help_filter; ?>"><?php echo $entry_filter; ?></span></label>
                 <div class="col-sm-10">
                   <input type="text" name="filter" value="" placeholder="<?php echo $entry_filter; ?>" id="input-filter" class="form-control" />
@@ -361,7 +361,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label"><?php echo $entry_store; ?></label>
                 <div class="col-sm-10">
                   <div class="well well-sm" style="height: 150px; overflow: auto;">
@@ -392,7 +392,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-download"><span data-toggle="tooltip" title="<?php echo $help_download; ?>"><?php echo $entry_download; ?></span></label>
                 <div class="col-sm-10">
                   <input type="text" name="download" value="" placeholder="<?php echo $entry_download; ?>" id="input-download" class="form-control" />
@@ -405,7 +405,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group" style="display: none">
                 <label class="col-sm-2 control-label" for="input-related"><span data-toggle="tooltip" title="<?php echo $help_related; ?>"><?php echo $entry_related; ?></span></label>
                 <div class="col-sm-10">
                   <input type="text" name="related" value="" placeholder="<?php echo $entry_related; ?>" id="input-related" class="form-control" />
@@ -417,7 +417,7 @@
                     <?php } ?>
                   </div>
                 </div>
-              </div>-->
+              </div>
             </div>
             <div class="tab-pane" id="tab-attribute">
               <div class="table-responsive">
