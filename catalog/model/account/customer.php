@@ -135,6 +135,13 @@ class ModelAccountCustomer extends Model {
 
 		return $query->row;
 	}
+        
+        public function getCustomerByPhone($phone) {
+            
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE LOWER(telephone) = '" . $this->db->escape(utf8_strtolower($phone)) . "'");
+		return $query->row;
+	}
+
 
 	public function getCustomerByToken($token) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "customer WHERE token = '" . $this->db->escape($token) . "' AND token != ''");
