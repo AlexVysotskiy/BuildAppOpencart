@@ -104,7 +104,7 @@
                                 <td><?php echo $total; ?></td>
                             </tr>
                             <?php if ($customer && $reward) { ?>
-                            <tr>
+                            <!--<tr>
                                 <td><?php echo $text_reward; ?></td>
                                 <td><?php echo $reward; ?>
                                     <?php if (!$reward_total) { ?>
@@ -112,7 +112,7 @@
                                     <?php } else { ?>
                                     <button id="button-reward-remove" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-danger btn-xs"><i class="fa fa-minus-circle"></i> <?php echo $button_reward_remove; ?></button>
                                     <?php } ?></td>
-                            </tr>
+                            </tr>-->
                             <?php } ?>
                             <?php if ($order_status) { ?>
                             <tr>
