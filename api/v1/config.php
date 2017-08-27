@@ -5,7 +5,7 @@ if (file_exists('../../config.php')) {
 }
 
 // DIR
-define('DIR_API_APPLICATION', 'C:\WebServers\www\buildapp/api/v1/catalog/');
-define('DIR_API_SYSTEM', 'C:\WebServers\www\buildapp/api/v1/system/');
+define('DIR_API_APPLICATION', '/app/web/develop/api/v1/catalog/');
+define('DIR_API_SYSTEM', '/app/web/develop/api/v1/system/');
 
 ?>
