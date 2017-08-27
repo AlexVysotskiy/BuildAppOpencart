@@ -2,10 +2,40 @@
 
 class ControllerCommonMenu extends Controller
 {
+    //id - группы главного администратора
+    private $userGroupIdAdministrator = 1;
+
+    //перечень доступных меню в разделе админ панели
+    //для всех созданных групп КРОМЕ АДМИНИСТРАТОРА
+    private $profileViewMenuDefault = [
+        'dashboard',
+        'catalog',
+        'sale',
+        'system',
+        'reports'
+    ];
+
+    //АДМИНИСТРАТОР видит все доступные пункты меню в АДМИН ПАНЕЛИ
+    private $profileViewMenuAdministrator = [
+        'dashboard',
+        'catalog',
+        'extension',
+        'sale',
+        'system',
+        'tools',
+        'reports',
+        'otherParts1',
+        'otherParts2',
+        'otherParts3',
+        'otherParts4',
+        'otherParts5',
+        'otherParts6',
+        'otherParts7',
+        'otherParts8'
+    ];
 
     public function index()
     {
-
         $this->load->language('common/menu');
 
         $data['text_affiliate'] = $this->language->get('text_affiliate');
@@ -215,7 +245,14 @@ class ControllerCommonMenu extends Controller
             'etsy' => $this->config->get('etsy_status'),
         );
 
+        //ФОРМИРУЕМ МАССИВЫ ДЛЯ ВИЗУАЛЬНОГО ОТОБРАЖЕНИЯ МЕНЮ
+        //ДЛЯ РАЗНЫХ ПОЛЬЗОВАТЕЛЕЙ С ПРИВЕЛЕГИЯМИ
+        if ($this->user->user_group_id == $this->userGroupIdAdministrator) {
+            $data['set_views_menu'] = $this->profileViewMenuAdministrator;
+        } else {
+            $data['set_views_menu'] = $this->profileViewMenuDefault;
+        }
+
         return $this->load->view('common/menu.tpl', $data);
     }
-
 }
