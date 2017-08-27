@@ -1,6 +1,6 @@
 <ul id="menu">
 
-    <?php $isTest = isset($_REQUEST['test']) ?>
+    <?php $isTest = 1/*isset($_REQUEST['test'])*/ ?>
 
     <li id="dashboard"><a href="<?php echo $home; ?>"><i class="fa fa-dashboard fa-fw"></i> <span><?php echo $text_dashboard; ?></span></a></li>
     <li id="catalog"><a class="parent"><i class="fa fa-tags fa-fw"></i> <span><?php echo $text_catalog; ?></span></a>
