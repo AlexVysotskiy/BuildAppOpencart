@@ -1,28 +1,29 @@
 <?php
 // HTTP
-define('HTTP_SERVER', 'http://localhost/buildapp/');
+define('HTTP_SERVER', 'http://snab.dev/');
 
 // HTTPS
-define('HTTPS_SERVER', 'http://localhost/buildapp/');
+define('HTTPS_SERVER', 'http://snab.dev/');
 
 // DIR
-define('DIR_APPLICATION', 'C:/WebServers/www/buildapp/catalog/');
-define('DIR_SYSTEM', 'C:/WebServers/www/buildapp/system/');
-define('DIR_LANGUAGE', 'C:/WebServers/www/buildapp/catalog/language/');
-define('DIR_TEMPLATE', 'C:/WebServers/www/buildapp/catalog/view/theme/');
-define('DIR_CONFIG', 'C:/WebServers/www/buildapp/system/config/');
-define('DIR_IMAGE', 'C:/WebServers/www/buildapp/image/');
-define('DIR_CACHE', 'C:/WebServers/www/buildapp/system/cache/');
-define('DIR_DOWNLOAD', 'C:/WebServers/www/buildapp/system/download/');
-define('DIR_UPLOAD', 'C:/WebServers/www/buildapp/system/upload/');
-define('DIR_MODIFICATION', 'C:/WebServers/www/buildapp/system/modification/');
-define('DIR_LOGS', 'C:/WebServers/www/buildapp/system/logs/');
+define('DIR_APPLICATION', '/app/web/develop/catalog/');
+define('DIR_SYSTEM', '/app/web/develop/system/');
+define('DIR_LANGUAGE', '/app/web/develop/catalog/language/');
+define('DIR_TEMPLATE', '/app/web/develop/catalog/view/theme/');
+define('DIR_CONFIG', '/app/web/develop/system/config/');
+define('DIR_IMAGE', '/app/web/develop/image/');
+define('DIR_CACHE', '/app/web/develop/system/cache/');
+define('DIR_DOWNLOAD', '/app/web/develop/system/download/');
+define('DIR_UPLOAD', '/app/web/develop/system/upload/');
+define('DIR_MODIFICATION', '/app/web/develop/system/modification/');
+define('DIR_LOGS', '/app/web/develop/system/logs/');
 
 // DB
 define('DB_DRIVER', 'mysqli');
 define('DB_HOSTNAME', 'localhost');
-define('DB_USERNAME', 'dragon_gate');
-define('DB_PASSWORD', 'dragongatepass');
-define('DB_DATABASE', 'build_app');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
+define('DB_DATABASE', 'open_cart');
 define('DB_PORT', '3306');
 define('DB_PREFIX', 'oc_');
+
