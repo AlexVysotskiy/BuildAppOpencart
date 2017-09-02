@@ -33,7 +33,7 @@ class ModelCatalogProduct extends Model {
             tax_class_id = '" . (int)$data['tax_class_id'] . "', 
             sort_order = '" . (int)$data['sort_order'] . "', 
             date_added = NOW(),
-            user_id = '" . $this->user->isLogged() . "'");
+            user_group_id = '" . $this->user->getGroupId() . "'");
 
 		$product_id = $this->db->getLastId();
 
@@ -315,7 +315,7 @@ class ModelCatalogProduct extends Model {
             ON (p.product_id = pd.product_id) 
             WHERE p.product_id = '" . (int)$product_id . "' 
             AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'
-            AND p.user_id = '" . $this->user->isLogged() . "'");
+            AND p.user_group_id = '" . $this->user->getGroupId() . "'");
 
 		if ($query->num_rows) {
 			$data = $query->row;
@@ -385,7 +385,7 @@ class ModelCatalogProduct extends Model {
             ON (p.product_id = pd.product_id) 
             WHERE p.product_id = '" . (int)$product_id . "' 
             AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'
-            AND p.user_id = '" . $this->user->isLogged() . "'");
+            AND p.user_group_id = '" . $this->user->getGroupId() . "'");
 
 		return $query->row;
 	}
@@ -396,7 +396,7 @@ class ModelCatalogProduct extends Model {
             LEFT JOIN " . DB_PREFIX . "product_description pd 
             ON (p.product_id = pd.product_id) 
             WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'
-            AND p.user_id = '" . $this->user->isLogged() . "'";
+            AND p.user_group_id = '" . $this->user->getGroupId() . "'";
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND pd.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
@@ -467,7 +467,7 @@ class ModelCatalogProduct extends Model {
           ON (p.product_id = p2c.product_id) 
           WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' 
           AND p2c.category_id = '" . (int)$category_id . "' 
-          AND p.user_id = '" . $this->user->isLogged() . "'
+          AND p.user_group_id = '" . $this->user->getGroupId() . "'
           ORDER BY pd.name ASC");
 
 		return $query->rows;
@@ -479,10 +479,9 @@ class ModelCatalogProduct extends Model {
                 LEFT JOIN " . DB_PREFIX . "product_description pd 
                 ON (pd.product_id = p.product_id) 
                 ON (ptc.product_id = p.product_id) 
-
                 WHERE ptc.category_id = '" . (int)$category_id . "'
                 AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'
-                AND p.user_id = '" . $this->user->isLogged() . "'";
+                AND p.user_group_id = '" . $this->user->getGroupId() . "'";
 
         if (!empty($data['filter_name'])) {
             $sql .= " AND pd.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
@@ -740,7 +739,7 @@ class ModelCatalogProduct extends Model {
                   FROM " . DB_PREFIX . "product p 
                   LEFT JOIN " . DB_PREFIX . "product_description pd 
                   ON (p.product_id = pd.product_id) 
-                  WHERE p.user_id = '" . $this->user->isLogged() . "' ";
+                  WHERE p.user_group_id = '" . $this->user->getGroupId() . "' ";
 
 		$sql .= " WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
@@ -770,25 +769,41 @@ class ModelCatalogProduct extends Model {
 	}
 
 	public function getTotalProductsByTaxClassId($tax_class_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "product WHERE tax_class_id = '" . (int)$tax_class_id . "' AND user_id = '" . $this->user->isLogged() . "' ");
+		$query = $this->db->query("
+            SELECT COUNT(*) AS total 
+            FROM " . DB_PREFIX . "product 
+            WHERE tax_class_id = '" . (int)$tax_class_id . "' 
+            AND user_group_id = '" . $this->user->getGroupId() . "' ");
 
 		return $query->row['total'];
 	}
 
 	public function getTotalProductsByStockStatusId($stock_status_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "product WHERE stock_status_id = '" . (int)$stock_status_id . "' AND user_id = '" . $this->user->isLogged() . "'");
+		$query = $this->db->query("
+            SELECT COUNT(*) AS total 
+            FROM " . DB_PREFIX . "product 
+            WHERE stock_status_id = '" . (int)$stock_status_id . "' 
+            AND user_group_id = '" . $this->user->getGroupId() . "'");
 
 		return $query->row['total'];
 	}
 
 	public function getTotalProductsByWeightClassId($weight_class_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "product WHERE weight_class_id = '" . (int)$weight_class_id . "' AND user_id = '" . $this->user->isLogged() . "'");
+		$query = $this->db->query("
+            SELECT COUNT(*) AS total 
+            FROM " . DB_PREFIX . "product 
+            WHERE weight_class_id = '" . (int)$weight_class_id . "' 
+            AND user_group_id = '" . $this->user->getGroupId() . "'");
 
 		return $query->row['total'];
 	}
 
 	public function getTotalProductsByLengthClassId($length_class_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "product WHERE length_class_id = '" . (int)$length_class_id . "' AND user_id = '" . $this->user->isLogged() . "'");
+		$query = $this->db->query("
+            SELECT COUNT(*) AS total 
+            FROM " . DB_PREFIX . "product 
+            WHERE length_class_id = '" . (int)$length_class_id . "' 
+            AND user_group_id = '" . $this->user->getGroupId() . "'");
 
 		return $query->row['total'];
 	}
@@ -800,7 +815,11 @@ class ModelCatalogProduct extends Model {
 	}
 
 	public function getTotalProductsByManufacturerId($manufacturer_id) {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "product WHERE manufacturer_id = '" . (int)$manufacturer_id . "' AND user_id = '" . $this->user->isLogged() . "'");
+		$query = $this->db->query("
+            SELECT COUNT(*) AS total 
+            FROM " . DB_PREFIX . "product 
+            WHERE manufacturer_id = '" . (int)$manufacturer_id . "' 
+            AND user_group_id = '" . $this->user->getGroupId() . "'");
 
 		return $query->row['total'];
 	}

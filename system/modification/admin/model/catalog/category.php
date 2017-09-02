@@ -3,7 +3,17 @@ class ModelCatalogCategory extends Model {
 	public function addCategory($data) {
 		$this->event->trigger('pre.admin.category.add', $data);
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "category SET parent_id = '" . (int)$data['parent_id'] . "', `top` = '" . (isset($data['top']) ? (int)$data['top'] : 0) . "', `column` = '" . (int)$data['column'] . "', sort_order = '" . (int)$data['sort_order'] . "', status = '" . (int)$data['status'] . "', date_modified = NOW(), date_added = NOW(), user_id = '" . $this->user->isLogged() . "'");
+		$this->db->query("
+            INSERT INTO " . DB_PREFIX . "category 
+            SET 
+            parent_id = '" . (int)$data['parent_id'] . "', 
+            `top` = '" . (isset($data['top']) ? (int)$data['top'] : 0) . "', 
+            `column` = '" . (int)$data['column'] . "', 
+            sort_order = '" . (int)$data['sort_order'] . "', 
+            status = '" . (int)$data['status'] . "', 
+            date_modified = NOW(), 
+            date_added = NOW(), 
+            user_group_id = '" . $this->user->getGroupId() . "'");
 
 		$category_id = $this->db->getLastId();
 
@@ -184,7 +194,10 @@ class ModelCatalogCategory extends Model {
 	}
 
 	public function repairCategories($parent_id = 0) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "category WHERE parent_id = '" . (int)$parent_id . "'  AND user_id = '" . $this->user->isLogged() . "'");
+		$query = $this->db->query("
+            SELECT * FROM " . DB_PREFIX . "category 
+            WHERE parent_id = '" . (int)$parent_id . "'  
+            AND user_group_id = '" . $this->user->getGroupId() . "'");
 
 		foreach ($query->rows as $category) {
 			// Delete the path below the current one
@@ -208,7 +221,27 @@ class ModelCatalogCategory extends Model {
 	}
 
 	public function getCategory($category_id) {
-		$query = $this->db->query("SELECT DISTINCT *, (SELECT GROUP_CONCAT(cd1.name ORDER BY level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "category_description cd1 ON (cp.path_id = cd1.category_id AND cp.category_id != cp.path_id) WHERE cp.category_id = c.category_id AND cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' GROUP BY cp.category_id) AS path, (SELECT DISTINCT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'category_id=" . (int)$category_id . "') AS keyword FROM " . DB_PREFIX . "category c LEFT JOIN " . DB_PREFIX . "category_description cd2 ON (c.category_id = cd2.category_id) WHERE c.category_id = '" . (int)$category_id . "' AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "' AND c.user_id = '" . $this->user->isLogged() . "' ");
+		$query = $this->db->query("
+            SELECT DISTINCT *, (
+            SELECT GROUP_CONCAT(cd1.name 
+            ORDER BY level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;'
+            )
+            FROM " . DB_PREFIX . "category_path cp 
+            LEFT JOIN " . DB_PREFIX . "category_description cd1 
+            ON (cp.path_id = cd1.category_id 
+            AND cp.category_id != cp.path_id) 
+            WHERE cp.category_id = c.category_id 
+            AND cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' 
+            GROUP BY cp.category_id) AS path, (
+            SELECT DISTINCT keyword 
+            FROM " . DB_PREFIX . "url_alias 
+            WHERE query = 'category_id=" . (int)$category_id . "') 
+            AS keyword FROM " . DB_PREFIX . "category c 
+            LEFT JOIN " . DB_PREFIX . "category_description cd2 
+            ON (c.category_id = cd2.category_id) 
+            WHERE c.category_id = '" . (int)$category_id . "' 
+            AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "' 
+            AND c.user_group_id = '" . $this->user->getGroupId() . "' ");
 
 		return $query->row;
 	}
@@ -229,7 +262,7 @@ class ModelCatalogCategory extends Model {
                   ON (cp.category_id = cd2.category_id) 
                   WHERE cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' 
                   AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "' 
-                  AND c1.user_id = '" . $this->user->isLogged() . "' ";
+                  AND c1.user_group_id = '" . $this->user->getGroupId() . "' ";
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND cd2.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
@@ -326,7 +359,10 @@ class ModelCatalogCategory extends Model {
 	}
 
 	public function getTotalCategories() {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "category WHERE user_id = '" . $this->user->isLogged() . "' ");
+		$query = $this->db->query("
+            SELECT COUNT(*) AS total 
+            FROM " . DB_PREFIX . "category 
+            WHERE user_group_id = '" . $this->user->getGroupId() . "' ");
 
 		return $query->row['total'];
 	}
