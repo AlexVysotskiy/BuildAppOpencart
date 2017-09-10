@@ -64,15 +64,15 @@ class ControllerCommonLogin extends Controller {
 			$data['password'] = '';
 		}
 
-        $this->load->model('user/user_city');
-        $citys = $this->model_user_user_city->getCitys();
+        $this->load->model('user/user_zone');
+        $zones = $this->model_user_user_zone->getZones();
 
-        $data['citys'] = $citys;
+        $data['zones'] = $zones;
 
-        if (isset($this->request->post['city_id'])) {
-            $data['city_id'] = $this->request->post['city_id'];
-        } else if ($citys[0]) {
-            $data['city_id'] = $citys[0]['city_id'];
+        if (isset($this->request->post['zone_id'])) {
+            $data['zone_id'] = $this->request->post['zone_id'];
+        } else if ($zones[0]) {
+            $data['zone_id'] = $zones[0]['zone_id'];
         }
 
 		if (isset($this->request->get['route'])) {
@@ -107,7 +107,7 @@ class ControllerCommonLogin extends Controller {
 	protected function validate() {
 
 		if (!isset($this->request->post['username']) || !isset($this->request->post['password']) ||
-            !$this->user->login($this->request->post['username'], $this->request->post['password'], $this->request->post['city_id'])
+            !$this->user->login($this->request->post['username'], $this->request->post['password'], $this->request->post['zone_id'])
         ) {
 		    $this->error['warning'] = $this->language->get('error_login');
 		}

@@ -1,20 +1,8 @@
 <?php
+require_once(DIR_API_APPLICATION . 'controller/custom/shipping_method.php');
 
-class ControllerCheckoutOrderBaseAPI extends ApiController
+class ControllerCheckoutOrderBaseAPI extends ControllerCustomShippingMethodBaseAPI
 {
-
-    /**
-     *
-     * @var type 
-     */
-    protected $_defaults = array(
-        'city' => 'Саратов',
-        'country_id' => 176,
-        'zone_id' => 2783,
-        'payment_method' => 'cod',
-        'shipping_method' => 'flat'
-    );
-
     public function index($args = array())
     {
         if ($this->request->isPostRequest()) {
@@ -103,38 +91,98 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
             }
         }
 
+        $this->load->model('localisation/zone');
+        $resultZone = $this->model_localisation_zone->getZone($this->session->data['zone_id']);
+
+        if ($resultZone) {
+            $city       = $resultZone['name'];
+            $country_id = $resultZone['country_id'];
+        } else {
+            $json['error']['city'] = 'error_city 1';
+            $json['error']['address'] = 'error_address 1';
+        }
+
         // адрес доставки в деволтном городе
         $address = trim(@$this->request->post['address']);
 
         if ((utf8_strlen($address) < 3) || (utf8_strlen($address) > 500)) {
-            $json['error']['address'] = 'error_address';
+            $json['error']['address'] = 'error_address 2';
         }
 
-        $city = isset($this->request->post['city']) ? $this->request->post['city'] : $default['city'];
+        $postCity = $this->request->post['city'];
 
-        if ((utf8_strlen($address) < 3) || (utf8_strlen($address) > 500)) {
-            $json['error']['city'] = 'error_city';
+        if ($postCity && (utf8_strlen($postCity) < 3) || (utf8_strlen($postCity) > 500)) {
+            $json['error']['city'] = 'error_city 2';
+        } else if ($postCity) {
+            $city = $postCity;
         }
+
+        $getList = parent::getList();
+
+        if (isset($this->request->post['shipping_climbing'])) {
+            $shipping_climbing = $getList['shipping_climbing']['sum'];
+        } else {
+            $shipping_climbing = 0;
+        }
+
+        if (isset($this->request->post['shipping_lift'])) {
+            $shipping_lift = $getList['shipping_lift']['sum'];
+        } else {
+            $shipping_lift = 0;
+        }
+
+        if (isset($this->request->post['shipping_winch'])) {
+            $shipping_winch = $getList['shipping_winch']['sum'];
+        } else {
+            $shipping_winch = 0;
+        }
+
+        if (isset($this->request->post['shipping_unloading'])) {
+            $shipping_unloading = $getList['shipping_unloading']['sum'];
+        } else {
+            $shipping_unloading = 0;
+        }
+
+        if (isset($this->request->post['shipping_weight_line'])) {
+            $shipping_weight_line = $getList['shipping_weight_line']['sum'];
+        } else {
+            $shipping_weight_line = 0;
+        }
+
+        if (isset($this->request->post['shipping_garbage'])) {
+            $shipping_garbage = $getList['shipping_garbage']['sum'];
+        } else {
+            $shipping_garbage = 0;
+        }
+
 
         // все ок, можем оформлять заказ
         if (!$json) {
 
             // опции заказа (доставка, разгрузка, подъем)
-            $options = json_decode(html_entity_decode($this->request->post['options']), true);
+            //$options = json_decode(html_entity_decode($this->request->post['options']), true);
+            $options = [
+                'shipping_climbing'    => $shipping_climbing,
+                'shipping_lift'        => $shipping_lift,
+                'shipping_winch'       => $shipping_winch,
+                'shipping_unloading'   => $shipping_unloading,
+                'shipping_weight_line' => $shipping_weight_line,
+                'shipping_garbage'     => $shipping_garbage,
+            ];
 
             $this->load->model('account/address');
 
-            // пиздец, товарищи
+            //ФОРМИРУЕМ ИНФОРМАЦИЮ ПО АДРЕСУ
             $addressData = array(
-                'firstname' => $this->customer->getFirstName(),
-                'lastname' => $this->customer->getLastName(),
-                'company' => '',
-                'address_1' => $address,
-                'address_2' => '',
-                'postcode' => '',
-                'city' => $city,
-                'zone_id' => $default['zone_id'],
-                'country_id' => $default['country_id']
+                'firstname'  => $this->customer->getFirstName(),
+                'lastname'   => $this->customer->getLastName(),
+                'company'    => '',
+                'address_1'  => $address,
+                'address_2'  => '',
+                'postcode'   => '',
+                'city'       => $city,
+                'zone_id'    => $this->session->data['zone_id'],
+                'country_id' => $country_id
             );
 
             if (!($address_id = $this->model_account_address->hasAddress($address, $city))) {
@@ -288,19 +336,19 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
 
         if ($this->cart->hasShipping()) {
 
-            $order_data['shipping_firstname'] = $shippingAddress['firstname'];
-            $order_data['shipping_lastname'] = $shippingAddress['lastname'];
-            $order_data['shipping_company'] = $shippingAddress['company'];
-            $order_data['shipping_address_1'] = $shippingAddress['address_1'];
-            $order_data['shipping_address_2'] = $shippingAddress['address_2'];
-            $order_data['shipping_city'] = $shippingAddress['city'];
-            $order_data['shipping_postcode'] = $shippingAddress['postcode'];
-            $order_data['shipping_zone'] = $shippingAddress['zone'];
-            $order_data['shipping_zone_id'] = $shippingAddress['zone_id'];
-            $order_data['shipping_country'] = $shippingAddress['country'];
-            $order_data['shipping_country_id'] = $shippingAddress['country_id'];
+            $order_data['shipping_firstname']      = $shippingAddress['firstname'];
+            $order_data['shipping_lastname']       = $shippingAddress['lastname'];
+            $order_data['shipping_company']        = $shippingAddress['company'];
+            $order_data['shipping_address_1']      = $shippingAddress['address_1'];
+            $order_data['shipping_address_2']      = $shippingAddress['address_2'];
+            $order_data['shipping_city']           = $shippingAddress['city'];
+            $order_data['shipping_postcode']       = $shippingAddress['postcode'];
+            $order_data['shipping_zone']           = $shippingAddress['zone'];
+            $order_data['shipping_zone_id']        = $shippingAddress['zone_id'];
+            $order_data['shipping_country']        = $shippingAddress['country'];
+            $order_data['shipping_country_id']     = $shippingAddress['country_id'];
             $order_data['shipping_address_format'] = $shippingAddress['address_format'];
-            $order_data['shipping_custom_field'] = (isset($shippingAddress['custom_field']) ? $shippingAddress['custom_field'] : array());
+            $order_data['shipping_custom_field']   = (isset($shippingAddress['custom_field']) ? $shippingAddress['custom_field'] : array());
 
             if (isset($shippingMethod['title'])) {
                 $order_data['shipping_method'] = $shippingMethod['title'];
@@ -314,21 +362,21 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
                 $order_data['shipping_code'] = '';
             }
         } else {
-            $order_data['shipping_firstname'] = '';
-            $order_data['shipping_lastname'] = '';
-            $order_data['shipping_company'] = '';
-            $order_data['shipping_address_1'] = '';
-            $order_data['shipping_address_2'] = '';
-            $order_data['shipping_city'] = '';
-            $order_data['shipping_postcode'] = '';
-            $order_data['shipping_zone'] = '';
-            $order_data['shipping_zone_id'] = '';
-            $order_data['shipping_country'] = '';
-            $order_data['shipping_country_id'] = '';
+            $order_data['shipping_firstname']      = '';
+            $order_data['shipping_lastname']       = '';
+            $order_data['shipping_company']        = '';
+            $order_data['shipping_address_1']      = '';
+            $order_data['shipping_address_2']      = '';
+            $order_data['shipping_city']           = '';
+            $order_data['shipping_postcode']       = '';
+            $order_data['shipping_zone']           = '';
+            $order_data['shipping_zone_id']        = '';
+            $order_data['shipping_country']        = '';
+            $order_data['shipping_country_id']     = '';
             $order_data['shipping_address_format'] = '';
-            $order_data['shipping_custom_field'] = array();
-            $order_data['shipping_method'] = '';
-            $order_data['shipping_code'] = '';
+            $order_data['shipping_custom_field']   = array();
+            $order_data['shipping_method']         = '';
+            $order_data['shipping_code']           = '';
         }
 
         $order_data['products'] = array();
@@ -370,6 +418,12 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
         ;
         $order_data['total'] = $total;
 
+        $order_data['shipping_climbing']    = $orderOptions['shipping_climbing'];
+        $order_data['shipping_lift']        = $orderOptions['shipping_lift'];
+        $order_data['shipping_winch']       = $orderOptions['shipping_winch'];
+        $order_data['shipping_unloading']   = $orderOptions['shipping_unloading'];
+        $order_data['shipping_weight_line'] = $orderOptions['shipping_weight_line'];
+        $order_data['shipping_garbage']     = $orderOptions['shipping_garbage'];
 
         $order_data['affiliate_id'] = 0;
         $order_data['commission'] = 0;
@@ -403,16 +457,31 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
         }
 
         // добавили отображение галочек
-        $textOptions == '';
+        $textOptions = '';
         $textOptions .= 'Доставка: ' . ($orderOptions['shipping'] == 1 ? 'курьер' : 'самовывоз') . PHP_EOL;
-        if ($orderOptions['unload'] == 1 || $orderOptions['lift'] == 1) {
+
+        if ($orderOptions['shipping_climbing'] > 0 || $orderOptions['shipping_lift'] > 0 ||
+            $orderOptions['shipping_winch'] > 0 || $orderOptions['shipping_unloading'] > 0 ||
+            $orderOptions['shipping_weight_line'] > 0 || $orderOptions['shipping_garbage'] > 0) {
 
             $t = array();
-            if ($orderOptions['unload'] == 1) {
-                $t[] = 'разгрузка';
+            if ($orderOptions['shipping_climbing'] > 0) {
+                $t[] = 'подъём пешком';
             }
-            if ($orderOptions['lift'] == 1) {
-                $t[] = 'подъем';
+            if ($orderOptions['shipping_lift'] > 0) {
+                $t[] = 'подъем на лифте';
+            }
+            if ($orderOptions['shipping_winch'] > 0) {
+                $t[] = 'подъём на лебёдке';
+            }
+            if ($orderOptions['shipping_unloading'] > 0) {
+                $t[] = 'разгрузку';
+            }
+            if ($orderOptions['shipping_weight_line'] > 0) {
+                $t[] = 'доставка по весу';
+            }
+            if ($orderOptions['shipping_garbage'] > 0) {
+                $t[] = 'вывоз мусора';
             }
 
             $textOptions .= 'Требуется:' . implode(', ', $t) . ';' . PHP_EOL;
@@ -422,8 +491,14 @@ class ControllerCheckoutOrderBaseAPI extends ApiController
 
         $this->session->data['comment'];
 
-        $this->load->model('checkout/order');
 
+        //ДОСТАЁМ ПО ПРЕВОМУ ПРОДУКТУ
+        //ГРУППУ ПОЛЬЗОВАТЕЛЯ ДЛЯ ЗАКРПЛЕНИЯ ЗАКАЗА
+        //В ПАНЕЛИ АДМИНИСТРАТИРОВАНИЯ ЗА КОНКРЕТНЫМ ПРОДОВЦОМ
+        $this->load->model('catalog/product');
+        $order_data['user_id'] = $this->model_catalog_product->getProductUserId($shippingAddress['zone_id']);
+
+        $this->load->model('checkout/order');
         $this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);
 
         return $this->session->data['order_id'];

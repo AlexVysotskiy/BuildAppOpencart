@@ -26,15 +26,14 @@ class ApiSession extends Session {
 
 				session_start();
 			}
-				
+
 			$this->data =& $_SESSION;
 		}
-		
 	}
 
 	public function writeToDefaultSession($session_name = 'PHPSESSID', $session_save_handler = 'files') {
         $session_id = session_id();
-        
+
         // write and close current session
         session_write_close();
         

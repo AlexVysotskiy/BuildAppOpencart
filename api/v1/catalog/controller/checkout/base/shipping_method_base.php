@@ -39,7 +39,10 @@ class ControllerCheckoutShippingMethodBaseAPI extends ApiController {
 		$data = parent::getInternalRouteData('checkout/shipping_method');
 
 		ApiException::evaluateErrors($data, false);
-		
+
+		//echo "<pre>"; var_dump($this->getShippingMethods($data));
+
+
 		$shippingMethods = array('shipping_methods' => $this->getShippingMethods($data));
 		$this->response->setOutput($shippingMethods);
 	}

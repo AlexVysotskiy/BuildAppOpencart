@@ -2,6 +2,16 @@
 
 class ControllerExtensionShipping extends Controller
 {
+    //ПЕРЕЧЕНЬ РАЗРЕШЁННЫХ ДЛЯ
+    //ЗАПОЛНЕНИЯ СПОСОБОВ ДОСТАВКИ
+    private $accessShippingMode = array(
+        'weight_line',
+        'unloading',
+        'climbing',
+        'lift',
+        'winch',
+        'garbage'
+    );
 
     private $error = array();
 
@@ -132,9 +142,10 @@ class ControllerExtensionShipping extends Controller
             foreach ($files as $file) {
                 $extension = basename($file, '.php');
 
-                if (!in_array($extension, array('flat', 'pickup'))) {
+                if (!in_array($extension, $this->accessShippingMode)) {
                     continue;
                 }
+
 
                 $this->load->language('shipping/' . $extension);
 
@@ -153,6 +164,7 @@ class ControllerExtensionShipping extends Controller
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
+       // echo "<pre>"; var_dump($data);
 
         $this->response->setOutput($this->load->view('extension/shipping.tpl', $data));
     }

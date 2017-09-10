@@ -52,14 +52,15 @@ class ControllerCommonCountryBaseAPI extends ApiController {
 
 		return $country;
 	}
-	
-	protected function getCountries() {
-		$this->load->model('localisation/country');
 
-		$countries = $this->model_localisation_country->getCountries();
+    protected function getCountries() {
+        $this->load->model('localisation/country');
 
-		return $this->processCountries($countries);
-	}
+        //$countries = $this->model_localisation_country->getCountries();
+        $countries = $this->model_localisation_country->getCountriesFranchise();
+
+        return $this->processCountries($countries);
+    }
 
 	protected function processCountries($countries) {
 		foreach($countries as &$country) {

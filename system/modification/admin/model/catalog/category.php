@@ -247,7 +247,7 @@ class ModelCatalogCategory extends Model {
 	}
 
 	public function getCategories($data = array()) {
-		$sql = "
+        $sql = "
                   SELECT cp.category_id AS category_id, 
                   GROUP_CONCAT(cd1.name ORDER BY cp.level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') 
                   AS name, c1.parent_id, c1.sort_order 

@@ -30,7 +30,7 @@
             <li><a href="#tab-data" data-toggle="tab"><?php echo $tab_data; ?></a></li>
             <li><a href="#tab-links" data-toggle="tab"><?php echo $tab_links; ?></a></li>
             <li style="display: none"><a href="#tab-attribute" data-toggle="tab"><?php echo $tab_attribute; ?></a></li>
-            <li style="display: none"><a href="#tab-option" data-toggle="tab"><?php echo $tab_option; ?></a></li>
+            <li><a href="#tab-option" data-toggle="tab"><?php echo $tab_option; ?></a></li>
             <li style="display: none"><a href="#tab-recurring" data-toggle="tab"><?php echo $tab_recurring; ?></a></li>
             <li style="display: none"><a href="#tab-discount" data-toggle="tab"><?php echo $tab_discount; ?></a></li>
              <li style="display: none"><a href="#tab-special" data-toggle="tab"><?php echo $tab_special; ?></a></li>
@@ -1112,7 +1112,7 @@ $('#attribute tbody tr').each(function(index, element) {
 	attributeautocomplete(index);
 });
 //--></script> 
-  <script type="text/javascript"><!--	
+  <script type="text/javascript">	
 var option_row = <?php echo $option_row; ?>;
 
 $('input[name=\'option\']').autocomplete({
@@ -1247,8 +1247,8 @@ $('input[name=\'option\']').autocomplete({
 		option_row++;
 	}	
 });
-//--></script> 
-  <script type="text/javascript"><!--		
+</script> 
+  <script type="text/javascript">		
 var option_value_row = <?php echo $option_value_row; ?>;
 
 function addOptionValue(option_row) {	
@@ -1284,7 +1284,7 @@ function addOptionValue(option_row) {
         
 	option_value_row++;
 }
-//--></script> 
+</script> 
   <script type="text/javascript"><!--
 var discount_row = <?php echo $discount_row; ?>;
 

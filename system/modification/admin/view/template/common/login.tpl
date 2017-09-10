@@ -35,12 +35,12 @@
 
               <div class="form-group required">
                 <div class="col-sm-12">
-                  <select name="city_id" id="input-city" class="form-control">
-                    <?php foreach ($citys as $city) { ?>
-                        <?php if ($city['city_id'] == $city_id) { ?>
-                            <option value="<?php echo $city['city_id']; ?>" selected="selected"><?php echo $city['name']; ?></option>
+                  <select name="zone_id" id="input-zone" class="form-control">
+                    <?php foreach ($zones as $zone) { ?>
+                        <?php if ($zone['zone_id'] == $zone_id) { ?>
+                            <option value="<?php echo $zone['zone_id']; ?>" selected="selected"><?php echo $zone['name']; ?></option>
                         <?php } else { ?>
-                            <option value="<?php echo $city['city_id']; ?>"><?php echo $city['name']; ?></option>
+                            <option value="<?php echo $zone['zone_id']; ?>"><?php echo $zone['name']; ?></option>
                         <?php } ?>
                     <?php } ?>
                   </select>

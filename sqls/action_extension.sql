@@ -1,0 +1,1 @@
+INSERT INTO `deprog99_snab`.`oc_extension` (`extension_id`, `type`, `code`) VALUES (NULL, 'shipping', 'weight_line');
