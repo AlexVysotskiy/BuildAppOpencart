@@ -648,7 +648,7 @@ class ModelCatalogProduct extends Model
             AND p.store_id = '" . (int) $this->config->get('config_store_id') . "'");
 
         if ($query->num_rows) {
-            return $query->row['user_group_id'];
+            return $query->row['user_group_franchise_id'];
         } else {
             return null;
         }
@@ -657,9 +657,9 @@ class ModelCatalogProduct extends Model
     public function getProductUserId($zone_id)
     {
         $query = $this->db->query("
-            SELECT * FROM ``" . DB_PREFIX . "user`
+            SELECT * FROM `" . DB_PREFIX . "user`
             WHERE zone_id = '" . (int) $zone_id . "' ");
 
-        return $query->row['user_id'];
+        return $query->row['user_group_franchise_id'];
     }
 }

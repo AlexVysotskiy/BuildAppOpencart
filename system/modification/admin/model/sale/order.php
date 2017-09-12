@@ -213,7 +213,7 @@ class ModelSaleOrder extends Model {
 			$sql .= " AND o.total = '" . (float)$data['filter_total'] . "'";
 		}
 
-        $sql .= " AND o.user_id = '" . $this->user->getId() . "'";
+        $sql .= " AND o.user_group_franchise_id = '" . $this->user->getGroupFranchiseId() . "'";
 
         $sort_data = array(
 			'o.order_id',
@@ -292,7 +292,7 @@ class ModelSaleOrder extends Model {
 	public function getTotalOrders($data = array()) {
 		$sql = "
             SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order`
-            WHERE user_id = '" . $this->user->getId() . "'
+            WHERE user_group_franchise_id = '" . $this->user->getGroupFranchiseId() . "'
 		";
 
 		if (!empty($data['filter_order_status'])) {

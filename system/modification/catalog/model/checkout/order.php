@@ -7,7 +7,7 @@ class ModelCheckoutOrder extends Model {
 		SET 
 		invoice_prefix = '" . $this->db->escape($data['invoice_prefix']) . "', 
 		store_id = '" . (int)$data['store_id'] . "', 
-		user_id = '" . $data['user_id'] . "', 
+		user_group_franchise_id = '" . $data['user_group_franchise_id'] . "', 
 		store_name = '" . $this->db->escape($data['store_name']) . "', 
 		store_url = '" . $this->db->escape($data['store_url']) . "', 
 		customer_id = '" . (int)$data['customer_id'] . "', 

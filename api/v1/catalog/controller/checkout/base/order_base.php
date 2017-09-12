@@ -24,7 +24,7 @@ class ControllerCheckoutOrderBaseAPI extends ControllerCustomShippingMethodBaseA
                 $success = false;
             }
 
-            $response['success'] = $success == true;
+            $response['success'] = $success;
 
             $this->response->setOutput($response);
         } else {
@@ -496,7 +496,7 @@ class ControllerCheckoutOrderBaseAPI extends ControllerCustomShippingMethodBaseA
         //ГРУППУ ПОЛЬЗОВАТЕЛЯ ДЛЯ ЗАКРПЛЕНИЯ ЗАКАЗА
         //В ПАНЕЛИ АДМИНИСТРАТИРОВАНИЯ ЗА КОНКРЕТНЫМ ПРОДОВЦОМ
         $this->load->model('catalog/product');
-        $order_data['user_id'] = $this->model_catalog_product->getProductUserId($shippingAddress['zone_id']);
+        $order_data['user_group_franchise_id'] = $this->model_catalog_product->getProductUserId($shippingAddress['zone_id']);
 
         $this->load->model('checkout/order');
         $this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);

@@ -17,6 +17,7 @@ class User {
                 $this->city_id = $user_query->row['city_id'];
                 $this->username = $user_query->row['username'];
 				$this->user_group_id = $user_query->row['user_group_id'];
+                $this->user_group_franchise_id = $user_query->row['user_group_franchise_id'];
 
 				$this->db->query("UPDATE " . DB_PREFIX . "user SET ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "' WHERE user_id = '" . (int)$this->session->data['user_id'] . "'");
 
@@ -51,6 +52,7 @@ class User {
             $this->city_id = $user_query->row['city_id'];
             $this->username = $user_query->row['username'];
 			$this->user_group_id = $user_query->row['user_group_id'];
+            $this->user_group_franchise_id = $user_query->row['user_group_franchise_id'];
 
 			$user_group_query = $this->db->query("SELECT permission FROM " . DB_PREFIX . "user_group WHERE user_group_id = '" . (int)$user_query->row['user_group_id'] . "'");
 
@@ -97,6 +99,10 @@ class User {
 
     public function getGroupId() {
         return $this->user_group_id;
+    }
+
+    public function getGroupFranchiseId() {
+        return $this->user_group_franchise_id;
     }
 
     public function getCityId() {

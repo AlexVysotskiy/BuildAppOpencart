@@ -13,7 +13,8 @@ class ModelCatalogCategory extends Model {
             status = '" . (int)$data['status'] . "', 
             date_modified = NOW(), 
             date_added = NOW(), 
-            user_group_id = '" . $this->user->getGroupId() . "'");
+            user_group_franchise_id = '" . $this->user->getGroupFranchiseId() . "'
+        ");
 
 		$category_id = $this->db->getLastId();
 
@@ -197,7 +198,7 @@ class ModelCatalogCategory extends Model {
 		$query = $this->db->query("
             SELECT * FROM " . DB_PREFIX . "category 
             WHERE parent_id = '" . (int)$parent_id . "'  
-            AND user_group_id = '" . $this->user->getGroupId() . "'");
+            AND user_group_franchise_id = '" . $this->user->getGroupFranchiseId() . "'");
 
 		foreach ($query->rows as $category) {
 			// Delete the path below the current one
@@ -241,7 +242,7 @@ class ModelCatalogCategory extends Model {
             ON (c.category_id = cd2.category_id) 
             WHERE c.category_id = '" . (int)$category_id . "' 
             AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "' 
-            AND c.user_group_id = '" . $this->user->getGroupId() . "' ");
+            AND c.user_group_franchise_id = '" . $this->user->getGroupFranchiseId() . "' ");
 
 		return $query->row;
 	}
@@ -262,7 +263,7 @@ class ModelCatalogCategory extends Model {
                   ON (cp.category_id = cd2.category_id) 
                   WHERE cd1.language_id = '" . (int)$this->config->get('config_language_id') . "' 
                   AND cd2.language_id = '" . (int)$this->config->get('config_language_id') . "' 
-                  AND c1.user_group_id = '" . $this->user->getGroupId() . "' ";
+                  AND c1.user_group_franchise_id = '" . $this->user->getGroupFranchiseId() . "' ";
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND cd2.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
@@ -362,7 +363,7 @@ class ModelCatalogCategory extends Model {
 		$query = $this->db->query("
             SELECT COUNT(*) AS total 
             FROM " . DB_PREFIX . "category 
-            WHERE user_group_id = '" . $this->user->getGroupId() . "' ");
+            WHERE user_group_franchise_id = '" . $this->user->getGroupFranchiseId() . "' ");
 
 		return $query->row['total'];
 	}
