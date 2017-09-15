@@ -2,7 +2,7 @@
 
 class ControllerCustomQuickOrderImageBaseAPI extends ApiController {
 
-	public function index() {
+    public function index() {
         if($this->request->isPostRequest()) {
             $this->response->setOutput($this->post());
         } else {
@@ -15,7 +15,7 @@ class ControllerCustomQuickOrderImageBaseAPI extends ApiController {
         $customer = $this->customer;
 
         $message = 'Поступило обращение от пользователя ' . $customer->getFirstName() . ' ' . $customer->getLastName() . '.' . PHP_EOL . PHP_EOL;
-        $message .= 'Текст обращения: ' . html_entity_decode(trim($this->request->post['text'])) . PHP_EOL . PHP_EOL;
+        //$message .= 'Текст обращения: ' . html_entity_decode(trim($this->request->post['text'])) . PHP_EOL . PHP_EOL;
 
         $message .= 'Телефон: ' . $customer->getTelephone() . PHP_EOL . PHP_EOL;
         $message .= 'Email: ' . $customer->getEmail() . PHP_EOL . PHP_EOL;
@@ -27,14 +27,29 @@ class ControllerCustomQuickOrderImageBaseAPI extends ApiController {
         $this->load->model('checkout/quick_order');
         $email = $this->model_checkout_quick_order->getShopEmail($this->session->data['zone_id']);
 
+        $img = $_POST['image'];
+        $img = str_replace('data:image/png;base64,', '', $img);
+        $img = str_replace(' ', '+', $img);
+        $data = base64_decode($img);
+
+        $uniqid = uniqid();
+        $file = DIR_IMAGE . 'sendMail/' . $uniqid . '.png';
+
+        $fpng = fopen($file, "w");
+        fwrite($fpng, $data);
+        fclose($fpng);
+
         $this->sendMail($email, array(
             'subject' => $subject,
             'message' => $message,
+            'file'    => $file
         ));
 
         $response = array(
             'success' => 1,
         );
+
+        @unlink($file);
 
         return $response;
     }
@@ -58,7 +73,10 @@ class ControllerCustomQuickOrderImageBaseAPI extends ApiController {
         $mail->setFrom($this->config->get('config_email'));
         $mail->setSender(html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
         $mail->setSubject($subject);
+
+        $mail->AddAttachment($params['file']);
         $mail->setText($message);
+
         $mail->send();
     }
 }

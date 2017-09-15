@@ -1,32 +1,31 @@
 <?php
 // HTTP
-define('HTTP_SERVER', 'http://snab.deprogru.431.com1.ru/admin/');
-define('HTTP_CATALOG', 'http://snab.deprogru.431.com1.ru/');
+define('HTTP_SERVER', 'http://snab-64.ru/testBuild/admin/');
+define('HTTP_CATALOG', 'http://snab-64.ru/');
 
 // HTTPS
-define('HTTPS_SERVER', 'http://snab.deprogru.431.com1.ru/admin/');
-define('HTTPS_CATALOG', 'http://snab.deprogru.431.com1.ru/');
-
+define('HTTPS_SERVER', 'http://snab-64.ru/admin/');
+define('HTTPS_CATALOG', 'http://snab-64.ru/');
 
 // DIR
-define('DIR_APPLICATION', '/home/deprog99/public_html/snab/admin/');
-define('DIR_SYSTEM', '/home/deprog99/public_html/snab/system/');
-define('DIR_LANGUAGE', '/home/deprog99/public_html/snab/admin/language/');
-define('DIR_TEMPLATE', '/home/deprog99/public_html/snab/admin/view/template/');
-define('DIR_CONFIG', '/home/deprog99/public_html/snab/system/config/');
-define('DIR_IMAGE', '/home/deprog99/public_html/snab/image/');
-define('DIR_CACHE', '/home/deprog99/public_html/snab/system/cache/');
-define('DIR_DOWNLOAD', '/home/deprog99/public_html/snab/system/download/');
-define('DIR_UPLOAD', '/home/deprog99/public_html/snab/system/upload/');
-define('DIR_LOGS', '/home/deprog99/public_html/snab/system/logs/');
-define('DIR_MODIFICATION', '/home/deprog99/public_html/snab/system/modification/');
-define('DIR_CATALOG', '/home/deprog99/public_html/snab/catalog/');
+define('DIR_APPLICATION', '/var/www/html/buildapp/testBuild/admin/');
+define('DIR_SYSTEM', '/var/www/html/buildapp/testBuild/system/');
+define('DIR_LANGUAGE', '/var/www/html/buildapp/testBuild/admin/language/');
+define('DIR_TEMPLATE', '/var/www/html/buildapp/testBuild/admin/view/template/');
+define('DIR_CONFIG', '/var/www/html/buildapp/testBuild/system/config/');
+define('DIR_IMAGE', '/var/www/html/buildapp/testBuild/image/');
+define('DIR_CACHE', '/var/www/html/buildapp/testBuild/system/cache/');
+define('DIR_DOWNLOAD', '/var/www/html/buildapp/testBuild/system/download/');
+define('DIR_UPLOAD', '/var/www/html/buildapp/testBuild/system/upload/');
+define('DIR_LOGS', '/var/www/html/buildapp/testBuild/system/logs/');
+define('DIR_MODIFICATION', '/var/www/html/buildapp/testBuild/system/modification/');
+define('DIR_CATALOG', '/var/www/html/buildapp/testBuild/catalog/');
 
 // DB
 define('DB_DRIVER', 'mysqli');
 define('DB_HOSTNAME', 'localhost');
-define('DB_USERNAME', 'deprog99_user_fs');
-define('DB_PASSWORD', 'fshj432gjhcYUGFE^$$#vrhgacfsd');
-define('DB_DATABASE', 'deprog99_snab');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', 'root');
+define('DB_DATABASE', 'build_app');
 define('DB_PORT', '3306');
 define('DB_PREFIX', 'oc_');

@@ -24,7 +24,7 @@ class ControllerCheckoutOrderBaseAPI extends ControllerCustomShippingMethodBaseA
                 $success = false;
             }
 
-            $response['success'] = $success;
+            $response['success'] = $success == true;
 
             $this->response->setOutput($response);
         } else {
