@@ -155,6 +155,17 @@ class ControllerCheckoutOrderBaseAPI extends ControllerCustomShippingMethodBaseA
             $shipping_garbage = 0;
         }
 
+        if (isset($this->request->post['time_client'])) {
+            $timeClient = $this->request->post['time_client'];
+        } else {
+            $timeClient = 0;
+        }
+
+        if (isset($this->request->post['payment_mode'])) {
+            $paymentMode = $this->request->post['payment_mode'];
+        } else {
+            $paymentMode = 'cod';
+        }
 
         // все ок, можем оформлять заказ
         if (!$json) {
@@ -208,13 +219,18 @@ class ControllerCheckoutOrderBaseAPI extends ControllerCustomShippingMethodBaseA
             /* @TODO добавить валидацию опций */
             /* @TODO добавить валидацию  $total */
             $total = 1;
-            $code = 'cod';
-            $this->load->model('payment/' . $code);
-            $paymentMethod = $this->{'model_payment_' . $code}->getMethod($paymentAddress, $total);
+            //$code = $paymentMode;
+            //$this->load->model('payment/' . $code);
+            //$paymentMethod = $this->{'model_payment_' . $code}->getMethod($paymentAddress, $total);
+
+            //БЫЛО ПРИНЯТО РЕШЕНИЕ ЧТО МОДЕЛЬ cod ПОДХОДИТ ДЛЯ СУЩЕСТВУЮЩИХ МЕТОДОВ
+            //ОПЛАТЫ НА ДАННЫЙ МОМЕНТ, СОЗДОВАТЬ ДУБЛИКАТЫ БЕССМЫСЛЕННО
+            $this->load->model('payment/cod');
+            $paymentMethod = $this->{'model_payment_cod'}->getMethod($paymentAddress, $total);
             $this->session->data['payment_method'] = $paymentMethod;
 
             // сохранили заказ
-            $orderId = $this->makeOrder($paymentAddress, $paymentMethod, $shippingAddress, $shippingMethod, $options);
+            $orderId = $this->makeOrder($paymentAddress, $paymentMethod, $shippingAddress, $shippingMethod, $options, $timeClient, $paymentMode);
 
             // оплата 
             $this->payment = new APIPayment();
@@ -244,7 +260,7 @@ class ControllerCheckoutOrderBaseAPI extends ControllerCustomShippingMethodBaseA
         ApiException::evaluateErrors($json);
     }
 
-    protected function makeOrder($paymentAddress, $paymentMethod, $shippingAddress, $shippingMethod, $orderOptions)
+    protected function makeOrder($paymentAddress, $paymentMethod, $shippingAddress, $shippingMethod, $orderOptions, $timeClient, $paymentMode)
     {
         $order_data = array();
 
@@ -326,12 +342,6 @@ class ControllerCheckoutOrderBaseAPI extends ControllerCustomShippingMethodBaseA
             $order_data['payment_method'] = $paymentMethod['title'];
         } else {
             $order_data['payment_method'] = '';
-        }
-
-        if (isset($paymentMethod['code'])) {
-            $order_data['payment_code'] = $paymentMethod['code'];
-        } else {
-            $order_data['payment_code'] = '';
         }
 
         if ($this->cart->hasShipping()) {
@@ -456,6 +466,12 @@ class ControllerCheckoutOrderBaseAPI extends ControllerCustomShippingMethodBaseA
             $order_data['accept_language'] = '';
         }
 
+        if (isset($this->request->server['HTTP_ACCEPT_LANGUAGE'])) {
+            $order_data['accept_language'] = $this->request->server['HTTP_ACCEPT_LANGUAGE'];
+        } else {
+            $order_data['accept_language'] = '';
+        }
+
         // добавили отображение галочек
         $textOptions = '';
         $textOptions .= 'Доставка: ' . ($orderOptions['shipping'] == 1 ? 'курьер' : 'самовывоз') . PHP_EOL;
@@ -496,14 +512,29 @@ class ControllerCheckoutOrderBaseAPI extends ControllerCustomShippingMethodBaseA
         //ГРУППУ ПОЛЬЗОВАТЕЛЯ ДЛЯ ЗАКРПЛЕНИЯ ЗАКАЗА
         //В ПАНЕЛИ АДМИНИСТРАТИРОВАНИЯ ЗА КОНКРЕТНЫМ ПРОДОВЦОМ
         $this->load->model('catalog/product');
-        $order_data['user_group_franchise_id'] = $this->model_catalog_product->getProductUserId($shippingAddress['zone_id']);
+        $dataCP = $this->model_catalog_product->getProductUserId($this->session->data['zone_id']);
+        $order_data['user_group_franchise_id'] = $dataCP['user_group_franchise_id'];
 
+        //ЗАКАЗ ПРИШЁЛ В РАБОЧЕЕ ВРЕМЯ ИЛИ НЕТ
+        $work_time_first = preg_replace('/[^0-9]/', '', $dataCP['work_time_first']);
+        $work_time_last  = preg_replace('/[^0-9]/', '', $dataCP['work_time_last']);
+
+        //не рабочее
+        $order_data['work_shop_time'] = 0;
+
+        // $timeClient ВРЕМЯ КЛИЕНТА
+        if ((int)$work_time_first <= $timeClient && (int)$work_time_last >= $timeClient) {
+            //рабочее
+            $order_data['work_shop_time'] = 1;
+        }
+
+        $order_data['payment_code'] = $paymentMode;
+        
         $this->load->model('checkout/order');
         $this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);
 
         return $this->session->data['order_id'];
     }
-
 }
 
 ?>

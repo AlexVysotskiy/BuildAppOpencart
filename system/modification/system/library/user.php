@@ -14,7 +14,7 @@ class User {
 
 			if ($user_query->num_rows) {
 				$this->user_id = $user_query->row['user_id'];
-                $this->city_id = $user_query->row['city_id'];
+                $this->zone_id = $user_query->row['zone_id'];
                 $this->username = $user_query->row['username'];
 				$this->user_group_id = $user_query->row['user_group_id'];
                 $this->user_group_franchise_id = $user_query->row['user_group_franchise_id'];
@@ -49,7 +49,7 @@ class User {
 			$this->session->data['user_id'] = $user_query->row['user_id'];
 
 			$this->user_id = $user_query->row['user_id'];
-            $this->city_id = $user_query->row['city_id'];
+            $this->zone_id = $user_query->row['zone_id'];
             $this->username = $user_query->row['username'];
 			$this->user_group_id = $user_query->row['user_group_id'];
             $this->user_group_franchise_id = $user_query->row['user_group_franchise_id'];
@@ -105,7 +105,7 @@ class User {
         return $this->user_group_franchise_id;
     }
 
-    public function getCityId() {
-        return $this->city_id;
+    public function getZoneId() {
+        return $this->zone_id;
     }
 }

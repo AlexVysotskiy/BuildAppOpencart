@@ -657,9 +657,20 @@ class ModelCatalogProduct extends Model
     public function getProductUserId($zone_id)
     {
         $query = $this->db->query("
-            SELECT * FROM `" . DB_PREFIX . "user`
-            WHERE zone_id = '" . (int) $zone_id . "' ");
+            SELECT * FROM `" . DB_PREFIX . "user` u
+            LEFT JOIN `" . DB_PREFIX . "user_group` ug
+            ON (u.user_group_franchise_id = ug.user_group_id)
+            WHERE u.zone_id = '" . (int) $zone_id . "' ");
 
-        return $query->row['user_group_franchise_id'];
+        $data = array(
+            'user_group_franchise_id' => $query->row['test_mode'],
+            'test_mode' => $query->row['test_mode'],
+            'work_time_first' => $query->row['work_time_first'],
+            'work_time_last' => $query->row['work_time_last'],
+            'pass1' => $query->row['pass1'],
+            'shop_id' => $query->row['shop_id']
+        );
+
+        return $data;
     }
 }

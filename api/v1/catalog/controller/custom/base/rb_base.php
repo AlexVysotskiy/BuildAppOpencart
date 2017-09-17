@@ -4,8 +4,7 @@ class ControllerCustomRbBaseAPI extends ApiController {
 
     public function index()
     {
-        //if($this->request->isPostRequest()) {
-        if($this->request->isGetRequest()) {
+        if($this->request->isGetRequest() && $this->request->get['order_id']) {
 
             $this->response->setOutput(array('url' => $this->get()));
         } else {
@@ -15,52 +14,68 @@ class ControllerCustomRbBaseAPI extends ApiController {
 
     protected function get()
     {
-        //ДОСТАЁМ ПО ПРЕВОМУ ПРОДУКТУ
-        //ГРУППУ ПОЛЬЗОВАТЕЛЯ ДЛЯ ЗАКРПЛЕНИЯ ЗАКАЗА
-        //В ПАНЕЛИ АДМИНИСТРАТИРОВАНИЯ ЗА КОНКРЕТНЫМ ПРОДОВЦОМ
+        //ПОЛУЧАЕМ ДАННЫЕ О ФРАНШИЗЕ
         $this->load->model('catalog/product');
-        $order_data['user_group_franchise_id'] = $this->model_catalog_product->getProductUserId($shippingAddress['zone_id']);
+        $dataCP = $this->model_catalog_product->getProductUserId($this->session->data['zone_id']);
 
+        //НОМЕР ЗАКАЗА
+        $order_id = (int)$this->request->get['order_id'];
 
+        //ПОЛУЧАЕМ ДАННЫЕ О ЗАКАЗЕ
+        $this->load->model('checkout/order');
+        $dataCO = $this->model_checkout_order->getOrder($order_id);
 
-        $idShop = 'snabjenec';
-        $order_id = 1;
-        //ПЕРВЫЙ ПАРОЛЬ
-        $mrh_pass1 = "pqUqbT92WqL076ciTAwm";
-        $sum = 8.96;
+        if ($dataCP && $dataCO) {
 
+            //УНИКАЛЬНЫЙ ID МАГАЗИНА
+            $idShop = $dataCP['shop_id'];
+            //ПЕРВЫЙ ПАРОЛЬ
+            $mrh_pass1 = $dataCP['pass1'];
 
-        $url = 'https://auth.robokassa.ru/Merchant/Index.aspx?';
+            //ПОЛУЧАЕМ СУММУ ЗАКАЗА
+            $sum = $dataCO['total'];
 
-        //ID магазина
-        $url .= "&MrchLogin=" . $idShop;
-        // номер заказа
-        $url .= '&InvId=' . $order_id;
-        // описание заказа
-        $url .= "&Desc=ROBOKASSA";
-        // сумма заказа
-        $url .= "&OutSum=" . $sum;
-        // тип товара
-        $shp_item = 1;
+            $url = 'https://auth.robokassa.ru/Merchant/Index.aspx?';
 
-        // предлагаемая валюта платежа
-        $in_curr = "";
+            //ID магазина
+            $url .= "&MrchLogin=" . $idShop;
 
-        // язык
-        $url .= "&Culture=ru";
+            //НОМЕР ЗАКАЗА
+            $url .= '&InvId=' . $order_id;
 
-        // кодировка
-        $url .= "&Encoding=utf-8";
+            //ОПИСАНИЕ
+            //$url .= "&Desc=ROBOKASSA";
 
-        //$test = '';
-        $url .= '&IsTest=1';
+            //СУММА ЗАКАЗА
+            $url .= "&OutSum=" . $sum;
 
-        $url .= '&Shp_item=1';
+            //ТИП ТОВАРА
+            $shp_item = 1;
 
-        // формирование подписи
-        $url .= '&SignatureValue=' .md5("$idShop:$sum:$order_id:$mrh_pass1:Shp_item=$shp_item");
+            //ВАЛЮТА
+            $in_curr = "";
 
-        return $url;
+            //ЯЗЫК
+            $url .= "&Culture=ru";
+
+            //КОДИРОВКА
+            $url .= "&Encoding=utf-8";
+
+            //ВКЛЮЧЁН ТЕСТОВЫЙ РЕЖИМ
+            if ($dataCP['test_mode'] == 1) {
+                $url .= '&IsTest=1';
+            }
+
+            $url .= '&Shp_item=' . $shp_item;
+
+            //ФОРМИРУЕМ ПОДПИСЬ
+            $url .= '&SignatureValue=' . md5("$idShop:$sum:$order_id:$mrh_pass1:Shp_item=$shp_item");
+
+            return $url;
+
+        }  else {
+            throw new ApiException(ApiResponse::HTTP_RESPONSE_CODE_NOT_FOUND, ErrorCodes::ERRORCODE_METHOD_NOT_FOUND, ErrorCodes::getMessage(ErrorCodes::ERRORCODE_METHOD_NOT_FOUND));
+        }
     }
 
 }
